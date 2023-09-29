@@ -1,0 +1,32 @@
+.container{
+    width:100vw;
+    height: 100vh;
+    display: flex;
+    /* overflow: hidden; */
+    background:linear-gradient(to top, rgb(20, 20, 20)10%,#222121 35%, rgb(136, 3, 136));
+    padding:15px 15px 15px 15px;
+}
+:where(.rightSide){
+    border-radius: 50px;
+}
+.rightSide{
+    display: flex;
+    flex-direction: column;
+    padding:20px;
+    width: 100%;
+    height: 100%;
+    background-color: #f3eeee;
+}
+
+.btnZap{
+    color:#fff;
+    background-color: #29a744;
+}
+.myBgPrimary{
+    color:#fff;
+    background:linear-gradient(to top, #101010 5%, purple);
+}
+.myBtnPrimary{
+    background: #B34EB6;
+    color:#fff;
+}

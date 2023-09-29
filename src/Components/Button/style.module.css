@@ -1,0 +1,13 @@
+.btn{
+    padding:7px 10px;
+    border:none;
+    outline: none;
+    border:1px solid #c7bbbb;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    border-radius: 4px;
+}
+
+.btn:hover{
+    box-shadow: inset 2px 50px 16px 0px rgba(0,0,0,.2);
+}

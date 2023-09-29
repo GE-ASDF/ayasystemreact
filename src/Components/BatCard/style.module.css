@@ -1,0 +1,77 @@
+.mycard{
+    background: url("/img/asas.png") no-repeat;
+    margin:10px;
+    padding:5px;
+    width: 250px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    background-size: cover;
+    border:none;
+}
+.myCardBody{
+    width: 150px;
+    height: 150px;
+    background:linear-gradient(to bottom, purple 20%, black);
+    border-radius: 100%;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0.9px 0.9px 5px purple;    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+    clip-path: circle(50%);
+    text-transform: uppercase;
+}
+.myCardBody i{
+    font-size: 50px;
+}
+.myCardBody .flexColumn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.navLinkBat{
+    position: relative;
+}
+.orelhas{
+    display: block;
+    background:linear-gradient(to bottom, purple 20%, black);
+    width: 100px;
+    height: 100px;
+    top:5px;
+    position: absolute;
+    border-radius: 20px;
+}
+.orelhas.right{
+    right: 0;
+}
+
+.myCardBody:hover{
+    width: 160px;
+    height: 160px;
+    transition: all 0.2s ease-in-out;
+}
+
+
+@media (max-width:500px){
+    .mycard{
+        width: 200px;
+        height: 200px;
+    }
+    .myCardBody{
+        width: 150px;
+        font-size: 1rem;
+        height: 150px;
+    }
+    .orelhas{
+        width: 100px;
+        height: 100px;
+        top:5px;
+    }
+}

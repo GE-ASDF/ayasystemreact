@@ -1,0 +1,14 @@
+.batContainer{
+    display: flex;
+    justify-content: flex-start;   
+    overflow: scroll;
+    flex-wrap: wrap;
+}
+.yellowText{
+    color:yellow;
+}
+.titleNews{
+    color:purple;
+    border-bottom: 3px solid #000;
+    width:100px;
+}

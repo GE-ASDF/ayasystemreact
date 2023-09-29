@@ -1,0 +1,11 @@
+.myBtnPrimary{
+    background: #B34EB6;
+    color:#fff;
+}
+.myBtn:hover{
+    color:#000;
+}
+.detail{
+    width: 50px;
+    border-radius: 10px;
+}

@@ -1,0 +1,30 @@
+.menuMobile{
+    display: block;
+    width:35px;
+    height:25px;
+    position:absolute;
+    cursor: pointer;
+    left:10px;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+    display: flex;
+    top:10px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.traco{
+    display: block;
+    width: 100%;
+    height: 5px;
+    background-color: #fff;
+}
+
+.tracoMenor{
+    width: 65%;
+    transition: all 0.4s ease;
+
+}
+.menuMobile:hover .tracoMenor{
+    width: 100%;
+    transition: all 0.4s ease;
+}

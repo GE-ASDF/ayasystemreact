@@ -1,0 +1,22 @@
+.myBtnPrimary{
+    background: #B34EB6;
+    color:#fff;
+}
+.myBtnPrimary:hover{
+    color:#000;
+}
+.detail{
+    width: 50px;
+    border-radius: 10px;
+}
+
+.iconsPurple{
+    color:#B34EB6;
+}
+.myBgPrimary{
+    color:#fff;
+    background:linear-gradient(to top, #101010 5%, purple);
+}
+.myBgPrimary:hover{
+    color:#fff;
+}
