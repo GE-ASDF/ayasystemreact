@@ -3,7 +3,7 @@ import PublicRoutes from "./Routes/PublicRoutes"
 import PrivateRoutes from "./Routes/PrivateRoutes";
 import TemplateContext from "./Contexts/TemplateContext";
 import { useState } from "react";
-
+import {ThemeProvider} from "./Contexts/ThemeContext";
 
 export async function checkAuth(){
   const data = await fetch("http://localhost:3000",{method:"GET"})
@@ -18,17 +18,19 @@ export default function App(){
     console.log(re)
   })
 
+
   console.log(logado)
   const router = createBrowserRouter([
     ...(logado ? PrivateRoutes() : []), // Condicionalmente adiciona rotas privadas
     ...PublicRoutes()
   ]);
-  
   return (
-    <TemplateContext.Provider value={userData}>
-        <RouterProvider router={router}>
-          <TemplateContext></TemplateContext>
-        </RouterProvider>
-    </TemplateContext.Provider>
+    <ThemeProvider>
+      <TemplateContext.Provider value={userData}>
+          <RouterProvider router={router}>
+            <TemplateContext></TemplateContext>
+          </RouterProvider>
+      </TemplateContext.Provider>
+    </ThemeProvider>
   )
 }

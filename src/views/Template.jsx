@@ -6,31 +6,30 @@ import DashBoard from "../Components/Dashboard"
 import { Helmet } from "react-helmet";
 import Button from "../Components/Button";
 import Modal from "../Components/Modal";
+import { useTheme } from "../Contexts/ThemeContext";
 
 
 export default function Template(){
     const local = useLocation().pathname.split("/admin").filter((el)=> el);    
+    const themeCtx = useTheme();
 
-    const [showWhatsaAppModal, setShowWhatsAppModal] = useState(false);
-    const openModal = (e)=>{
-        setShowWhatsAppModal((c)=> c = !c)
-    }
-    const closeModal = (e)=>{
-        setShowWhatsAppModal((c) => c = false)
-    }
-    document.addEventListener("keydown", (e)=>{
-        if(e.key.toLowerCase() == 'escape'){
-            setShowWhatsAppModal(false)
+    const handleToggleTheme = ()=>{
+        if(themeCtx){
+            themeCtx.setTheme(themeCtx.theme === 'dark' ? 'light':'dark');
         }
-    })
+    }
 
     return (
-        <div className={style.container}>
+        <div  className={`${style.container}`}>
                 <Helmet><title>AyASystem</title></Helmet>
                 <MainNav />
-                <section className={style.rightSide}>
-                    <header className="d-flex gap-1 justify-content-end">
-                        <Button type="button" className={`${style.myBtnPrimary} rounded-circle btn-sm`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
+                <section className={`${style.rightSide} ${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`}>
+                    <header className="d-flex  gap-1 justify-content-end align-items-center">
+                        <div style={{display:"flex", justifyContent:"flex-start", flex:"1"}} class="form-check form-switch">
+                            <input style={{cursor:"pointer"}} onClick={handleToggleTheme} class="form-check-input" checked={`${themeCtx?.theme == "dark" ? 'checked':''}`} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+                            <label style={{cursor:"pointer"}} class="form-check-label mx-1" for="flexSwitchCheckChecked">{themeCtx?.theme.toUpperCase()}</label>
+                        </div>
+                        <Button type="button" className={`${style.myBtnPrimary}  rounded-circle btn-sm`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
                             <i class="bi bi-chat-left-dots"></i>
                         </Button>
                         <Button type="button" className={`${style.btnZap}`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
@@ -50,7 +49,7 @@ export default function Template(){
                         rodapé
                     </footer>
                 </section>
-                <Modal modalSize="modal-lg" modalTitle="Mandar WhatsApp" id="mandarWhatsApp">
+                <Modal className={`${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`} modalSize="modal-lg" modalTitle="Mandar WhatsApp" id="mandarWhatsApp">
 
                 </Modal>
         </div>

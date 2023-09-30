@@ -1,7 +1,7 @@
 .batContainer{
     display: flex;
     justify-content: flex-start;   
-    overflow: scroll;
+    overflow: auto;
     flex-wrap: wrap;
 }
 .yellowText{

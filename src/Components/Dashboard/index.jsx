@@ -1,12 +1,13 @@
+import { useTheme } from "../../Contexts/ThemeContext";
 import BatCard from "../BatCard";
 import style from "./style.module.css"
 export default function DashBoard(){
+    const themeCtx = useTheme();
     const getMonth = ()=>{
         return new Date().toLocaleDateString('pt-Br', {month:"short", year:"numeric"})
     }
     return (
         <>
-        
         <div className={style.batContainer}>
             <BatCard href="/admin/presencas">
                 <i className="bi bi-check2-circle"></i>
@@ -18,7 +19,7 @@ export default function DashBoard(){
             </BatCard>
         </div>
         <div>
-            <h1 className={style.titleNews}>Novidades</h1>
+            <h1 className={`${style.titleNews} ${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light"}`}>Novidades</h1>
             <div>
                 <BatCard>
                     <span className="fs-6">Matrículas OM</span>
