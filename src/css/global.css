@@ -3,6 +3,7 @@ body, html, *{
     padding:0;
     box-sizing: border-box;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    overflow: hidden;
 }
 
 a{
@@ -24,4 +25,28 @@ img{
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     border-radius: 4px;
+}
+
+.c-loader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
+    position: absolute;
+    top:0;
+    background-color: #fff;    
+}
+.loader{
+    animation: is-rotating 1s infinite;
+    border:25px solid #e5e5e5;
+    border-radius: 50%;
+    border-top-color: #51d4db;
+    height: 150px;
+    width: 150px;
+}
+@keyframes is-rotating {
+    to{
+        transform: rotate(1turn);
+    }    
 }

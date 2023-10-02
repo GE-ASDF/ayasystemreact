@@ -1,22 +1,22 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import hookGetDateTime from "../../Hooks/hookGetDateTime";
 import style from "./style.module.css"
 import Button from "../Button";
-import TemplateContext from "../../Contexts/TemplateContext";
-import { useContext, useState } from "react";
-import hookLogout from "../../Hooks/hookLogout";
+import { useTemplate } from "../../Contexts/TemplateContext";
 
 
 
 export default function NavContent(props){
-    const [logout, handleLogout] = hookLogout();
     const [time] = hookGetDateTime()
-    const data = useContext(TemplateContext)
-    
-    if(logout){
-        return <Navigate to="/login"/>
+    const {data} = useTemplate();
+    const navigate = useNavigate();
+    const handleLogout = (e)=>{
+        e.preventDefault();
+        localStorage.removeItem("logado");
+        sessionStorage.removeItem("logado")
+        navigate("/login")
     }
-
+    
     return (
         <nav className={style.navMain}>
             <div className={style.containerLinks}>

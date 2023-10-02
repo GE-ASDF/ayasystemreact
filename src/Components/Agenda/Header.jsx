@@ -4,13 +4,13 @@ import { Card, CardBody, CardHeader } from "../Cards/Cards";
 import { useTheme } from "../../Contexts/ThemeContext";
 import Button from "../Button";
 
-export const Header = ({onClick, btnActive})=>{
+export const Header = ({onClick, onChange, btnActive})=>{
     const themeCtx = useTheme();
 
     return (
         <Card className={`mt-3 ${themeCtx?.theme == "dark" ? "bg-dark border text-light":"bg-light"}`}>
             <CardHeader>
-                <Link className={`btn btn-light ${style.myBtnPrimary} rounded-circle btn-sm`} to="/admin"><i class="bi text-white bi-arrow-left-circle"></i></Link>
+                <Link className={`btn btn-light ${style.myBtnPrimary} rounded-circle btn-sm`} to="/admin"><i className="bi text-white bi-arrow-left-circle"></i></Link>
             </CardHeader>
             <CardBody>
                 <div className="card-title">
@@ -20,7 +20,7 @@ export const Header = ({onClick, btnActive})=>{
                         <div className="row">
                         <div className="col-lg-6 p-1 col-sm-6 form-group d-flex justify-content-center align-items-center">
                             <span className="p-1 d-flex justify-content-center align-items-center h-100 rounded">Agenda de:</span>
-                            <select name="" className={`form-select w-50 p-1`} id="">
+                            <select onChange={onChange} name="" className={`form-select w-50 p-1`} id="">
                                 <option value="1">Segunda-feira</option>
                                 <option value="2">Terça-feira</option>
                                 <option value="3">Quarta-feira</option>

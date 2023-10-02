@@ -1,29 +1,43 @@
-import {RouterProvider, createBrowserRouter, useFetcher, useLoaderData} from "react-router-dom"
+import {RouterProvider, createBrowserRouter} from "react-router-dom"
 import PublicRoutes from "./Routes/PublicRoutes"
 import PrivateRoutes from "./Routes/PrivateRoutes";
-import TemplateContext from "./Contexts/TemplateContext";
-
-import {ThemeProvider} from "./Contexts/ThemeContext";
-
-
-
+import { ThemeProvider } from "./Contexts/ThemeContext";
+import { TemplateProvider } from "./Contexts/TemplateContext";
+import { AuthProvider } from "./Contexts/LoggedContext";
+import { useState,useEffect } from "react";
+import { checkAuth } from "./Loaders/checkAuth";
+import Loader from "./Components/Loader"
 export default function App(){
-  const userData = JSON.parse(localStorage.getItem("logado"))
-  const logado = true;
- 
-
-  const router = createBrowserRouter([
+  const [logado, setLogado] = useState(null);
+  console.log(PrivateRoutes())  
+  const router =  createBrowserRouter([
     ...(logado == true ? PrivateRoutes() : []), // Condicionalmente adiciona rotas privadas
     ...PublicRoutes()
   ]);
 
+  useEffect(()=>{
+    checkAuth().then((res)=>{
+      if(res.error == false){
+        setLogado(true);
+      }else{
+        setLogado(false);
+      }
+    })
+  },[])
+    
     return (
-    <ThemeProvider>
-      <TemplateContext.Provider value={userData}>
-          <RouterProvider router={router}>
-            <TemplateContext></TemplateContext>
-          </RouterProvider>
-      </TemplateContext.Provider>
-    </ThemeProvider>
+      <ThemeProvider>
+          <AuthProvider>
+              <TemplateProvider>
+                  {logado !== null &&
+                    <RouterProvider router={router} >
+                    </RouterProvider>
+                  }
+                {logado == null && 
+                  <Loader />
+                }
+              </TemplateProvider>
+              </AuthProvider>
+      </ThemeProvider>        
   )
 }

@@ -1,3 +1,3 @@
 export const createUserSession = (data)=>{
-    sessionStorage.setItem("logado", JSON.stringify(data))
+    localStorage.setItem("logado", JSON.stringify(data))
 }

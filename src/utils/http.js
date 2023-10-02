@@ -1,6 +1,6 @@
-const session = sessionStorage.getItem("logado");
+const session = localStorage.getItem("logado");
 const sessionStored = JSON.parse(session);
-export const TOKEN = sessionStored?.token;
+export let TOKEN = sessionStored?.token;
 
 const Authorization = TOKEN ? `${TOKEN}`:"no";
 const BASE_URL = "http://localhost:3001";
@@ -28,6 +28,7 @@ const fetchData = async(endpoint = "", method = "GET", body = {}, customHeaders 
         return data;
     }catch(err){
         return {
+            typeError:'catch',
             error:true,
             message: err
         }

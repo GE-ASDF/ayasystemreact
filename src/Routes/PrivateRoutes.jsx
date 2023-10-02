@@ -1,15 +1,16 @@
 import { Navigate } from "react-router-dom";
 import Template from "../views/Template";
 import Agenda from "../views/admin/agenda/index";
-import { checkAuth } from "../Loaders/checkAuth";
+import loaderAgenda from "../Loaders/loaderAgenda";
+
 export default function PrivateRoutes(){
-    return [{
+        return [{
             path: "/admin",
             element: <Template />,
-            loader:checkAuth,
             children:[
                 {
-                    path:"agenda",
+                    path:"agenda/:weekDay?",
+                    loader: loaderAgenda,
                     element: <Agenda />,
                 },
                 {

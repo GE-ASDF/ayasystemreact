@@ -1,4 +1,3 @@
-import { useTheme } from "../../Contexts/ThemeContext";
 
 export const Card = (props)=>{
     return (

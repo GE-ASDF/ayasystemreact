@@ -14,12 +14,13 @@
 .rightSide{
     display: flex;
     flex-direction: column;
-    padding:20px;
     width: 100%;
     height: 100%;
-    /* background-color: #f3eeee; */
+   
 }
-
+.headerRightSide{
+    padding:25px;
+}
 .btnZap{
     color:#fff;
     background-color: #29a744;

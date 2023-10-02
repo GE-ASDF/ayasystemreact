@@ -2,9 +2,11 @@ import { useState } from "react"
 import fetchData from "../utils/http";
 import {createUserSession} from "../utils/createUserSession";
 import {useNavigate} from "react-router-dom"
+import Loader from "../Components/Loader";
 
 export default function Login(){
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false)
     const [data, setData] = useState({
         Usuario:'',
         Senha:'',
@@ -20,20 +22,22 @@ export default function Login(){
     }
     const handleLoginSubmit = async (e)=>{
         e.preventDefault();
+        setLoading(true)
         const response = await fetchData("/auth", 'POST', data);
         if(response.error == false){
             createUserSession(response);
-            navigate("/admin");
+            window.location.href = "/admin"
         }else if(response.error == true){
+            setLoading(false)
             setMessage({error: true, type:"danger", message:response.message});
         }
-   
     }
     const handleClickShowMessage = ()=>{
         setMessage({error: false, type:"", message:""})
     }
     return (
             <div className="form-group">
+            {loading && <Loader />}
             {message.error && 
                 <div className={`alert alert-${message.type}`}>
                     <div className="d-flex justify-content-between align-items-center">
@@ -48,7 +52,7 @@ export default function Login(){
             </div>
             <div className="form-group">
                 <label htmlFor="">Senha</label>
-                <input onChange={handleSetData} type="text" name="Senha" />
+                <input onChange={handleSetData} type="password" name="Senha" />
             </div>
                 <button onClick={handleLoginSubmit} className="btn">Login</button>
             </div>
