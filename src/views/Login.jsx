@@ -1,58 +1,56 @@
 import { useState } from "react"
-
-async function fetchData(){
-    const data = await fetch("http://localhost:3000/auth",{method:"GET", Accept:"application/json"})
-    const res = await data.json();
-    return res;
-}
+import fetchData from "../utils/http";
+import {createUserSession} from "../utils/createUserSession";
+import {useNavigate} from "react-router-dom"
 
 export default function Login(){
+    const navigate = useNavigate();
+    const [data, setData] = useState({
+        Usuario:'',
+        Senha:'',
+    })
+    const [message, setMessage] = useState({
+        error:false,
+        type:'',
+        message:'',
+    });
 
-    const [Usuario, setUsuario] = useState('');
-    const [Senha, setSenha] = useState('');
-
+    const handleSetData = (e)=>{
+        setData({...data, [e.target.name]: e.target.value})
+    }
     const handleLoginSubmit = async (e)=>{
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("Usuario", Usuario);
-        formData.append("Senha", Senha);
-        formData.append("fetchApi", "true");
-        const response = await fetchData(formData);        
-        
+        const response = await fetchData("/auth", 'POST', data);
         if(response.error == false){
-            const logado = JSON.parse(localStorage.getItem("logado"))
-            if(!logado){
-                localStorage.setItem("logado", JSON.stringify({
-                    'Usuario': response.data.Usuario,
-                    'Nome': response.data.Nome,  
-                    "Administrador": response.data.Administrador
-                }));
-                window.location.href = "/admin"
-            }else{
-                localStorage.clear()
-                localStorage.setItem("logado", JSON.stringify({
-                    'Usuario': response.data.Usuario,
-                    'Nome': response.data.Nome,  
-                    "Administrador": response.data.Administrador
-                }));
-                window.location.href = "/admin"
-            }
-        }else{
-            alert("Ocorreu um erro", response)
+            createUserSession(response);
+            navigate("/admin");
+        }else if(response.error == true){
+            setMessage({error: true, type:"danger", message:response.message});
         }
+   
     }
-    
+    const handleClickShowMessage = ()=>{
+        setMessage({error: false, type:"", message:""})
+    }
     return (
-        <form onSubmit={handleLoginSubmit} action="http://pc-1/ayasystem/login/auth">
+            <div className="form-group">
+            {message.error && 
+                <div className={`alert alert-${message.type}`}>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <span>{message.message}</span>
+                        <button onClick={handleClickShowMessage} className="btn btn-danger">X</button>
+                    </div>
+                </div>
+            }
             <div className="form-group">
                 <label htmlFor="">Usuário</label>
-                <input onChange={(e)=> setUsuario(e.target.value)} type="text" name="Usuario" />
+                <input onChange={handleSetData} type="text" name="Usuario" />
             </div>
             <div className="form-group">
                 <label htmlFor="">Senha</label>
-                <input onChange={(e)=> setSenha(e.target.value)} type="text" name="Senha" />
+                <input onChange={handleSetData} type="text" name="Senha" />
             </div>
-            <button className="btn">Login</button>
-        </form>
+                <button onClick={handleLoginSubmit} className="btn">Login</button>
+            </div>
     )
 }

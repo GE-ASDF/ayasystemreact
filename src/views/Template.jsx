@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLoaderData, useLocation } from "react-router-dom";
 import style from "./styles/template.module.css"
 import MainNav from "../Components/MainNav";
 import { useState } from "react";
@@ -10,6 +10,8 @@ import { useTheme } from "../Contexts/ThemeContext";
 
 
 export default function Template(){
+    const loaderDta = useLoaderData();
+    console.log(loaderDta);
     const local = useLocation().pathname.split("/admin").filter((el)=> el);    
     const themeCtx = useTheme();
 
@@ -25,12 +27,12 @@ export default function Template(){
                 <MainNav />
                 <section className={`${style.rightSide} ${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`}>
                     <header className="d-flex  gap-1 justify-content-end align-items-center">
-                        <div style={{display:"flex", justifyContent:"flex-start", flex:"1"}} class="form-check form-switch">
-                            <input style={{cursor:"pointer"}} onClick={handleToggleTheme} class="form-check-input" checked={`${themeCtx?.theme == "dark" ? 'checked':''}`} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
-                            <label style={{cursor:"pointer"}} class="form-check-label mx-1" for="flexSwitchCheckChecked">{themeCtx?.theme.toUpperCase()}</label>
+                        <div style={{display:"flex", justifyContent:"flex-start", flex:"1"}} className="form-check form-switch">
+                            <input style={{cursor:"pointer"}} onClick={handleToggleTheme} className="form-check-input" defaultChecked={`${themeCtx?.theme == "dark" ? 'checked':''}`} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
+                            <label style={{cursor:"pointer"}} className="form-check-label mx-1" htmlFor="flexSwitchCheckChecked">{themeCtx?.theme.toUpperCase()}</label>
                         </div>
                         <Button type="button" className={`${style.myBtnPrimary}  rounded-circle btn-sm`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
-                            <i class="bi bi-chat-left-dots"></i>
+                            <i className="bi bi-chat-left-dots"></i>
                         </Button>
                         <Button type="button" className={`${style.btnZap}`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
                             <i className="bi bi-whatsapp"></i> Mandar WhatsApp
