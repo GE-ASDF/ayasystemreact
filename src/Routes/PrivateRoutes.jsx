@@ -7,10 +7,12 @@ export default function PrivateRoutes(){
         return [{
             path: "/admin",
             element: <Template />,
+            errorElement:<p>Ocorreu um erro</p>,
             children:[
                 {
                     path:"agenda/:weekDay?",
                     loader: loaderAgenda,
+                    errorElement:<p>Ocorreu um erro</p>,
                     element: <Agenda />,
                 },
                 {
