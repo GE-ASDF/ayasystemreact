@@ -22,7 +22,7 @@ export const Body = ({agenda, loading, sistema})=>{
     return (
         <div className={`card mt-2 p-2 ${themeCtx?.theme == 'dark' ? `bg-dark border text-light`:"bg-light"}`}>
             <div className="px-3">
-                <button onClick={()=> setShowMetadata(!showMetadata)} className={`btn p-0 p-1 btn-sm ${style.myBtnPrimary} ${themeCtx?.theme == "dark" ? "text-light":""}`}>Mostrar informações</button>
+                <button onClick={()=> setShowMetadata(!showMetadata)} className={`btn p-1 btn-sm ${style.myBtnPrimary} ${themeCtx?.theme == "dark" ? "text-light":""}`}>Mostrar informações</button>
                 {showMetadata && 
                 <div className="d-flex justify-content-between align-items-between gap-2 mt-2 w-100">
                         {keysMetadata.map((key) =>{
