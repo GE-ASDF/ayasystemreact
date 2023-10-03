@@ -3,7 +3,7 @@ const sessionStored = JSON.parse(session);
 export let TOKEN = sessionStored?.token;
 
 const Authorization = TOKEN ? `${TOKEN}`:"no";
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = import.meta.env.VITE_BASE_URL_BACKEND;
 const defaultHeaders = {
     Authorization: Authorization,
     "Content-Type": "application/json"

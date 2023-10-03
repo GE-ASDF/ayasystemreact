@@ -20,7 +20,7 @@ export const Header = ({onClick,  day, sistema, onChange, btnActive})=>{
                         <div className="row">
                         <div className="col-lg-6 p-1 col-sm-6 form-group d-flex justify-content-center align-items-center">
                             <span className="p-1 d-flex justify-content-center align-items-center h-100 rounded">Agenda de:</span>
-                            <select onChange={onChange} name="" className={`form-select w-50 p-1`} id="">
+                            <select defaultValue={day} onChange={onChange} name="" className={`form-select w-50 p-1`} id="">
                                 <option selected={`${day == 1 ? 'selected':''}`} value="1">Segunda-feira</option>
                                 <option selected={`${day == 2 ? 'selected':''}`} value="2">Terça-feira</option>
                                 <option selected={`${day == 3 ? 'selected':''}`} value="3">Quarta-feira</option>

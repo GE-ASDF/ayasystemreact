@@ -13,10 +13,10 @@ import { useState } from "react";
 import {api} from "../utils/api";
 
 export default function Template(){
-    const [loading, setLoading] = useState(true)
-    const [logged, setLogged] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [logged, setLogged] = useState(true)
     const navigate = useNavigate();
-
+    
     useEffect(()=>{
         const session = localStorage.getItem("logado");
         if(!session){

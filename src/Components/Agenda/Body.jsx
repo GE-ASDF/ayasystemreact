@@ -1,9 +1,43 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import style from "./style.module.css";
 import { Card, CardBody, CardHeader } from "../Cards/Cards";
 import { Accordion } from "../Accordion/Accordion";
 import { useTheme } from "../../Contexts/ThemeContext";
-export const Body = ({agenda, loading, sistema})=>{
+import Button from "../Button";
+export function Tbody({data, search = '', sistema ='all', handleGetInfoStudent}){
+    return (
+        <tbody>
+            {data.map(el =>{
+                return el.Alunos.map((aluno, key) =>{
+                    if((search && aluno.NomeAluno.trim().toLowerCase().normalize("NFD").includes(search)) || !search){
+                            return (
+                                <tr key={aluno.CodigoContrato}>
+                                <td className="text-center">{aluno.CodigoContrato}</td>
+                                <td>{aluno.NomeAluno}</td>
+                                <td className="text-center">{aluno.MateriaAtual}</td>
+                                <td className="text-center">{aluno.tipoAluno}</td>
+                                <td className="text-center">{aluno.Computador}</td>
+                                <td className="text-center">{aluno.Historico}</td>
+                                <td className={`text-center 
+                                bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
+                                aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
+                                }`
+                                }>{aluno.Presente}
+                                </td>
+                                <td>
+                                    <Link to={`contatos/${aluno.CodigoContrato}`} onClick={handleGetInfoStudent}>Históricos</Link>
+                                </td>
+                        </tr>
+                        )
+                    }
+                })
+            })}
+        </tbody>
+    )
+}
+
+export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
     const metadata = agenda[0].Metadata;
     const [search, setSearch] = useState(null);
     const data = agenda[0].Data;
@@ -57,7 +91,7 @@ export const Body = ({agenda, loading, sistema})=>{
                     </div>
                 </div>
                 {search &&
-                    <div className="px-3">
+                    <div style={{overflowX:"auto"}} className="px-3">
                         <table className="table table-dark">
                             <thead>
                                 <tr>
@@ -71,29 +105,7 @@ export const Body = ({agenda, loading, sistema})=>{
                                     <th>Ações</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {data.map(el =>{
-                                    return el.Alunos.map((aluno, key) =>{
-                                        if(aluno.NomeAluno.trim().toLowerCase().normalize("NFD").includes(search)){
-                                            return (
-                                                <tr>
-                                                <td className="text-center">{aluno.CodigoContrato}</td>
-                                                <td>{aluno.NomeAluno}</td>
-                                                <td className="text-center">{aluno.MateriaAtual}</td>
-                                                <td className="text-center">{aluno.tipoAluno}</td>
-                                                <td className="text-center">{aluno.Computador}</td>
-                                                <td className="text-center">{aluno.Historico}</td>
-                                                <td className={`text-center 
-                                                bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
-                                                aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
-                                                }`
-                                                }>{aluno.Presente}</td>
-                                            </tr>
-                                            )
-                                        }
-                                    })
-                                })}
-                            </tbody>
+                            <Tbody sistema={sistema} search={search} handleGetInfoStudent={handleGetInfoStudent} data={data} />
                         </table>
                     </div>
                 }
@@ -136,6 +148,9 @@ export const Body = ({agenda, loading, sistema})=>{
                                                 aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
                                                 }`
                                                 }>{aluno.Presente}</td>
+                                                <td>
+                                                    <Link className="btn btn-sm myBtnPrimary" to={`contatos/${aluno.CodigoContrato}`} onClick={handleGetInfoStudent}> <i className="bi bi-telephone-fill"></i></Link>
+                                                </td>
                                             </tr>
                                         </>
                                     )
@@ -156,7 +171,11 @@ export const Body = ({agenda, loading, sistema})=>{
                                                     aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
                                                 }`
                                             }>{aluno.Presente}</td>
+                                                <td>
+                                                    <Link className="btn btn-sm myBtnPrimary" to={`contatos/${aluno.CodigoContrato}`} onClick={handleGetInfoStudent}> <i className="bi bi-telephone-fill"></i></Link>
+                                                </td>
                                                 </tr>
+                                                
                                             </>
                                         )
                                     }
