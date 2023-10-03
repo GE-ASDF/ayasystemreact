@@ -8,7 +8,8 @@ import { useTemplate } from "../../Contexts/TemplateContext";
 
 export default function NavContent(props){
     const [time] = hookGetDateTime()
-    const {data} = useTemplate();
+    const {dataUser} = useTemplate();
+    const data = JSON.parse(dataUser)
     const navigate = useNavigate();
     const handleLogout = (e)=>{
         e.preventDefault();
@@ -25,7 +26,7 @@ export default function NavContent(props){
                     <img src="/img/logo.png" alt="" />
                 </div>
                 <div className={`${style.navGreeting}`}>
-                    <h4 className="fs-6">Bem vindo(a)</h4>
+                    <h4 className="fs-6">Bem vindo(a), {data.Nome}</h4>
                     <h5 className="fs-6">{time}</h5>
                 </div>
             </div>

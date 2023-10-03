@@ -19,7 +19,7 @@ export default function DashBoard(){
             </BatCard>
         </div>
         <div>
-            <h1 className={`${style.titleNews} ${themeCtx?.theme == 'dark' ? `bg-dark w-50 text-light`:"bg-light"}`}>
+            <h1 className={`${style.titleNews} ${themeCtx?.theme == 'dark' ? `bg-dark w-25 text-3xl text-light`:"bg-light w-25 text-3xl"}`}>
                 Novidades
             </h1>
             <div>

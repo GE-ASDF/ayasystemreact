@@ -10,13 +10,13 @@ import { useLogged } from "../Contexts/LoggedContext";
 import { useEffect } from "react";
 import { checkAuth } from "../Loaders/checkAuth";
 import { useState } from "react";
-
-
+import {api} from "../utils/api";
 
 export default function Template(){
     const [loading, setLoading] = useState(true)
     const [logged, setLogged] = useState(null)
     const navigate = useNavigate();
+
     useEffect(()=>{
         const session = localStorage.getItem("logado");
         if(!session){
@@ -28,6 +28,7 @@ export default function Template(){
         if(!TOKEN){
             navigate("/login")
         }
+        
         fetch("http://localhost:3001/verifyToken",{method:"POST", headers:{
             Authorization: TOKEN,
             "Content-Type": "application/json"
@@ -66,7 +67,7 @@ export default function Template(){
                                 <input style={{cursor:"pointer"}} onClick={handleToggleTheme} className="form-check-input" defaultChecked={`${themeCtx?.theme == "dark" ? 'checked':''}`} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
                                 <label style={{cursor:"pointer"}} className="form-check-label mx-1" htmlFor="flexSwitchCheckChecked">{themeCtx?.theme.toUpperCase()}</label>
                             </div>
-                            <Button type="button" className={`${style.myBtnPrimary}  rounded-circle btn-sm`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
+                            <Button type="button" className={`btn ${style.myBtnPrimary}  rounded-circle`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
                                 <i className="bi bi-chat-left-dots"></i>
                             </Button>
                             <Button type="button" className={`${style.btnZap}`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">

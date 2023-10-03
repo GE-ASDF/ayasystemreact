@@ -7,9 +7,9 @@ import { AuthProvider } from "./Contexts/LoggedContext";
 import { useState,useEffect } from "react";
 import { checkAuth } from "./Loaders/checkAuth";
 import Loader from "./Components/Loader"
+
 export default function App(){
   const [logado, setLogado] = useState(null);
-  console.log(PrivateRoutes())  
   const router =  createBrowserRouter([
     ...(logado == true ? PrivateRoutes() : []), // Condicionalmente adiciona rotas privadas
     ...PublicRoutes()

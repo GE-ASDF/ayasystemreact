@@ -1,9 +1,10 @@
 import fetchData from "../utils/http";
-
+import { api } from "../utils/api";
 
 export async function getSchedule(weekDay = new Date().getDay()){
-    let groups = await fetchData("/admin/agenda/"+weekDay);
-    return groups;
+    let {data} = await api.get('/admin/agenda/'+weekDay);
+    // let groups = await fetchData("/admin/agenda/"+weekDay);
+    return data;
 }
 
 export default async function loaderAgenda({params}){

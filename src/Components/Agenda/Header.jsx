@@ -4,9 +4,9 @@ import { Card, CardBody, CardHeader } from "../Cards/Cards";
 import { useTheme } from "../../Contexts/ThemeContext";
 import Button from "../Button";
 
-export const Header = ({onClick, onChange, btnActive})=>{
+export const Header = ({onClick,  day, sistema, onChange, btnActive})=>{
     const themeCtx = useTheme();
-
+    
     return (
         <Card className={`mt-3 ${themeCtx?.theme == "dark" ? "bg-dark border text-light":"bg-light"}`}>
             <CardHeader>
@@ -21,13 +21,13 @@ export const Header = ({onClick, onChange, btnActive})=>{
                         <div className="col-lg-6 p-1 col-sm-6 form-group d-flex justify-content-center align-items-center">
                             <span className="p-1 d-flex justify-content-center align-items-center h-100 rounded">Agenda de:</span>
                             <select onChange={onChange} name="" className={`form-select w-50 p-1`} id="">
-                                <option value="1">Segunda-feira</option>
-                                <option value="2">Terça-feira</option>
-                                <option value="3">Quarta-feira</option>
-                                <option value="4">Quinta-feira</option>
-                                <option value="5">Sexta-feira</option>
-                                <option value="6">Sábado</option>
-                                <option value="7">Domingo</option>
+                                <option selected={`${day == 1 ? 'selected':''}`} value="1">Segunda-feira</option>
+                                <option selected={`${day == 2 ? 'selected':''}`} value="2">Terça-feira</option>
+                                <option selected={`${day == 3 ? 'selected':''}`} value="3">Quarta-feira</option>
+                                <option selected={`${day == 4 ? 'selected':''}`} value="4">Quinta-feira</option>
+                                <option selected={`${day == 5 ? 'selected':''}`} value="5">Sexta-feira</option>
+                                <option selected={`${day == 6 ? 'selected':''}`} value="6">Sábado</option>
+                                <option selected={`${day == 7 ? 'selected':''}`} value="7">Domingo</option>
                             </select>
                         </div>
                         <div className="col-lg-6 p-1 d-flex align-items-center col-sm-6 form-group">
