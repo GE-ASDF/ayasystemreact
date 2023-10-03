@@ -1,7 +1,7 @@
 import style from "./style.module.css"
 export default function Button(props){
     return (
-        <button {...props} className={`${style.btn} ${props.className}`}>
+        <button {...props} className={`btn ${props.className}`}>
             {props.children}
         </button>
     )

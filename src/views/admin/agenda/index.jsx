@@ -12,7 +12,7 @@ export default function Agenda(){
     const [weekDay, setWeekDay] = useState(new Date().getDay())
     
     const navigate = useNavigate();
-    const [getInfoStudent, setGetInfoStudent] = useState(true)
+    const [getInfoStudent, setGetInfoStudent] = useState(false)
 
     const [btnActive, setBtnActive] = useState({
         btn:'all',
@@ -20,11 +20,10 @@ export default function Agenda(){
     });
     const [sistema, setSistema] = useState('all')
 
-    const handleGetInfoStudent = (e)=>{
+    const handleGetInfoStudent = ()=>{
         setGetInfoStudent(!getInfoStudent)
     }
 
-    
  
     const handleChangeSystemBtn = (e)=>{
         setBtnActive({btn: e.target.id, active: true})
@@ -34,6 +33,7 @@ export default function Agenda(){
         const day = e.target.value.trim();
         setWeekDay(day)
         setLoading(true)
+        setGetInfoStudent(false);
         navigate(`/admin/agenda/${day}`)
     }
     return (
@@ -49,7 +49,7 @@ export default function Agenda(){
                 <Body handleGetInfoStudent={handleGetInfoStudent} loading={{loading, setLoading}} sistema={sistema} agenda={agenda}/>
             </div>
             {getInfoStudent &&
-            <div onClick={handleGetInfoStudent} className={`${style.rightSide} close`}>
+            <div className={`${style.rightSide} close`}>
                 <div className={`${style.dialog}`}>
                     <Outlet context={[handleGetInfoStudent]} />
                 </div>

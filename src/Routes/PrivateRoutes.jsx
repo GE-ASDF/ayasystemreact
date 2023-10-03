@@ -4,6 +4,7 @@ import Agenda from "../views/admin/agenda/index";
 import loaderAgenda from "../Loaders/loaderAgenda";
 import ErrorBoundary from "../views/ErrorBoundary";
 import Contatos from "../views/admin/agenda/pages/Contatos";
+import Historicos from "../views/admin/agenda/pages/Historicos";
 import { loaderContatos } from "../Loaders/loaderContatos";
 
 export default function PrivateRoutes(){
@@ -22,6 +23,13 @@ export default function PrivateRoutes(){
                             path:"contatos/:CodigoContrato",
                             element: <Contatos />,
                             loader:loaderContatos,
+                            errorElement:<ErrorBoundary />,
+                        },
+                        {
+                            path:"historicos/:CodigoContrato",
+                            element: <Historicos />,
+                            loader:loaderContatos,
+                            errorElement:<ErrorBoundary />,
                         }
                     ]
                 },

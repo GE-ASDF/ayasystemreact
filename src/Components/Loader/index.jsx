@@ -1,6 +1,6 @@
-export default function Loader(){
+export default function Loader(props){
     return (
-        <div className="c-loader">
+        <div {...props} className={`c-loader ${props.className}`}>
             <div className="loader"></div>
         </div>
     )

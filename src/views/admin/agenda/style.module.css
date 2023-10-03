@@ -15,7 +15,7 @@
     position: absolute;
     top:0;
     right:0;
-    width: 100vw;
+    width: 300px;
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
     padding:10px;
@@ -23,6 +23,6 @@
     background-color: rgba(35, 35, 35,0.9);
 }
 .dialog{
-    width: 250px;
+    width: 100%;
     z-index: 2;
 }

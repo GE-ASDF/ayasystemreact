@@ -5,7 +5,9 @@ import { Card, CardBody, CardHeader } from "../Cards/Cards";
 import { Accordion } from "../Accordion/Accordion";
 import { useTheme } from "../../Contexts/ThemeContext";
 import Button from "../Button";
-export function Tbody({data, search = '', sistema ='all', handleGetInfoStudent}){
+import {Table,Tbody, Thead} from "../Table";
+
+export function TbodyWithSearch({data, search = '', handleGetInfoStudent}){
     return (
         <tbody>
             {data.map(el =>{
@@ -13,22 +15,22 @@ export function Tbody({data, search = '', sistema ='all', handleGetInfoStudent})
                     if((search && aluno.NomeAluno.trim().toLowerCase().normalize("NFD").includes(search)) || !search){
                             return (
                                 <tr key={aluno.CodigoContrato}>
-                                <td className="text-center">{aluno.CodigoContrato}</td>
-                                <td>{aluno.NomeAluno}</td>
-                                <td className="text-center">{aluno.MateriaAtual}</td>
-                                <td className="text-center">{aluno.tipoAluno}</td>
-                                <td className="text-center">{aluno.Computador}</td>
-                                <td className="text-center">{aluno.Historico}</td>
-                                <td className={`text-center 
-                                bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
-                                aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
-                                }`
-                                }>{aluno.Presente}
-                                </td>
-                                <td>
-                                    <Link to={`contatos/${aluno.CodigoContrato}`} onClick={handleGetInfoStudent}>Históricos</Link>
-                                </td>
-                        </tr>
+                                    <td className="text-center">{aluno.CodigoContrato}</td>
+                                    <td>{aluno.NomeAluno}</td>
+                                    <td className="text-center">{aluno.MateriaAtual}</td>
+                                    <td className="text-center">{aluno.tipoAluno}</td>
+                                    <td className="text-center">{aluno.Computador}</td>
+                                    <td className="text-center">{aluno.Historico}</td>
+                                    <td className={`text-center 
+                                    bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
+                                    aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
+                                    }`
+                                    }>{aluno.Presente}
+                                    </td>
+                                    <td>
+                                        <Actions CodigoContrato={aluno.CodigoContrato} handleGetInfoStudent={handleGetInfoStudent} />
+                                    </td>
+                                </tr>
                         )
                     }
                 })
@@ -37,15 +39,24 @@ export function Tbody({data, search = '', sistema ='all', handleGetInfoStudent})
     )
 }
 
+export function Actions(props){
+    return (
+        <div className="d-flex gap-1">
+            <Link title="Pegar contatos do aluno e ver históricos" className="btn btn-sm myBtnPrimary" to={`contatos/${props.CodigoContrato}`} onClick={props.handleGetInfoStudent}> <i className="bi bi-telephone-fill"></i></Link>
+            <Link title="Históricos do aluno" className="btn btn-sm btn-warning" to={`historicos/${props.CodigoContrato}`} onClick={props.handleGetInfoStudent}> <i class="bi bi-file-earmark-medical"></i></Link>
+        </div>
+    )
+}
+
 export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
     const metadata = agenda[0].Metadata;
     const [search, setSearch] = useState(null);
     const data = agenda[0].Data;
     const keysMetadata = [...Object.keys(metadata)];
-
+    const head = ['Código do contrato', 'Nome do aluno','Matéria atual','Sistema','Computador','Histórico','Situação','Ações']
     useEffect(()=>{
         loading.setLoading(false)
-    },[data, sistema])
+    },[data, loading])
     
     const handleSearch = (e)=>{
         setSearch(e.target.value.trim().normalize("NFD").toLowerCase())
@@ -86,27 +97,16 @@ export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
                     <div>
                         <span>Pesquisar</span>
                     </div>
-                    <div className="w-25">
+                    <div style={{minWidth:"125px"}}>
                         <input onChange={handleSearch} autoFocus="autofocus" type="text" className="form-control " placeholder="Pesquidar" />
                     </div>
                 </div>
                 {search &&
-                    <div style={{overflowX:"auto"}} className="px-3">
-                        <table className="table table-dark">
-                            <thead>
-                                <tr>
-                                    <th>Código do contrato</th>
-                                    <th>Nome do aluno</th>
-                                    <th>Matéria atual</th>
-                                    <th>Sistema </th>
-                                    <th>Computador</th>
-                                    <th>Histórico</th>
-                                    <th>Situação</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <Tbody sistema={sistema} search={search} handleGetInfoStudent={handleGetInfoStudent} data={data} />
-                        </table>
+                    <div style={{overflowX:"auto"}} className="px-3 mt-2">
+                        <Table className="table">
+                            <Thead head={head} />
+                            <TbodyWithSearch sistema={sistema} search={search} handleGetInfoStudent={handleGetInfoStudent} data={data} />
+                        </Table>
                     </div>
                 }
                 </div>
@@ -115,73 +115,61 @@ export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
                     return (
                         <>
                         <Accordion accordionHeaderClasses={`${themeCtx?.theme == "dark" ? "bg-dark text-light":"bg-light"}`} style={{maxWidth:"100%"}} 
-                        accordionItemClasses={`${themeCtx?.theme == "dark" ? "bg-dark text-light":"bg-light"}`} accordionClasses={`${themeCtx?.theme == "dark" ? "bg-dark text-light":"bg-light"}`} idAccordion={`agenda`} 
-                        accordionButtonClasses={`${style.myBgPrimary} fw-bold`} 
-                        accordionButtonText={`${value.HoraInicio} - Qtd. ${value.Alunos.length}`} dataBsTarget={`n${key}`} >
+                            accordionItemClasses={`${themeCtx?.theme == "dark" ? "bg-dark text-light":"bg-light"}`} accordionClasses={`${themeCtx?.theme == "dark" ? "bg-dark text-light":"bg-light"}`} idAccordion={`agenda`} 
+                            accordionButtonClasses={`${style.myBgPrimary} fw-bold`} 
+                            accordionButtonText={`${value.HoraInicio} - Qtd. ${value.Alunos.length}`} dataBsTarget={`n${key}`} >
                         <div style={{overflowX:"auto"}} className={`mt-2 card p-1 ${themeCtx?.theme == "dark" ? "bg-dark text-light":"bg-light"}`}>
-                            <table className="table table-bordered table-sm table-dark">
-                            <thead>
-                                <tr>
-                                    <th>Código do contrato</th>
-                                    <th>Nome do aluno</th>
-                                    <th>Matéria atual</th>
-                                    <th>Sistema </th>
-                                    <th>Computador</th>
-                                    <th>Histórico</th>
-                                    <th>Situação</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {sistema == 'all' && value.Alunos.map(aluno =>
-                                    (
-                                        <>
-                                            <tr>
-                                                <td className="text-center">{aluno.CodigoContrato}</td>
-                                                <td>{aluno.NomeAluno}</td>
-                                                <td className="text-center">{aluno.MateriaAtual}</td>
-                                                <td className="text-center">{aluno.tipoAluno}</td>
-                                                <td className="text-center">{aluno.Computador}</td>
-                                                <td className="text-center">{aluno.Historico}</td>
-                                                <td className={`text-center 
-                                                bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
-                                                aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
-                                                }`
-                                                }>{aluno.Presente}</td>
-                                                <td>
-                                                    <Link className="btn btn-sm myBtnPrimary" to={`contatos/${aluno.CodigoContrato}`} onClick={handleGetInfoStudent}> <i className="bi bi-telephone-fill"></i></Link>
-                                                </td>
-                                            </tr>
-                                        </>
-                                    )
-                                )}
-                                {sistema !== 'all' && value.Alunos.map(aluno =>{
-                                    if(aluno.tipoAluno.toLowerCase() == sistema){
-                                        return (
+                            <Table className={`table-bordered table-sm`}>
+                                <Thead head={head} />
+                                    <Tbody>
+                                        {sistema == 'all' && value.Alunos.map(aluno =>
+                                            (
                                                 <>
-                                                <tr>
-                                                    <td className="text-center">{aluno.CodigoContrato}</td>
-                                                    <td>{aluno.NomeAluno}</td>
-                                                    <td className="text-center">{aluno.MateriaAtual}</td>
-                                                    <td className="text-center">{aluno.tipoAluno}</td>
-                                                    <td className="text-center">{aluno.Computador}</td>
-                                                    <td className="text-center">{aluno.Historico}</td>
-                                                    <td className={`text-center 
-                                                    bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
-                                                    aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
-                                                }`
-                                            }>{aluno.Presente}</td>
-                                                <td>
-                                                    <Link className="btn btn-sm myBtnPrimary" to={`contatos/${aluno.CodigoContrato}`} onClick={handleGetInfoStudent}> <i className="bi bi-telephone-fill"></i></Link>
-                                                </td>
-                                                </tr>
-                                                
-                                            </>
-                                        )
-                                    }
-                                })}
-                            </tbody>
-                        </table>
+                                                    <tr>
+                                                        <td className="text-center">{aluno.CodigoContrato}</td>
+                                                        <td>{aluno.NomeAluno}</td>
+                                                        <td className="text-center">{aluno.MateriaAtual}</td>
+                                                        <td className="text-center">{aluno.tipoAluno}</td>
+                                                        <td className="text-center">{aluno.Computador}</td>
+                                                        <td className="text-center">{aluno.Historico}</td>
+                                                        <td className={`text-center 
+                                                        bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
+                                                        aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
+                                                        }`
+                                                        }>{aluno.Presente}</td>
+                                                        <td>
+                                                            <Actions CodigoContrato={aluno.CodigoContrato} handleGetInfoStudent={handleGetInfoStudent}/>
+                                                        </td>
+                                                    </tr>
+                                                </>
+                                            )
+                                        )}
+                                        {sistema !== 'all' && value.Alunos.map(aluno =>{
+                                            if(aluno.tipoAluno.toLowerCase() == sistema){
+                                                return (
+                                                        <>
+                                                        <tr>
+                                                            <td className="text-center">{aluno.CodigoContrato}</td>
+                                                            <td>{aluno.NomeAluno}</td>
+                                                            <td className="text-center">{aluno.MateriaAtual}</td>
+                                                            <td className="text-center">{aluno.tipoAluno}</td>
+                                                            <td className="text-center">{aluno.Computador}</td>
+                                                            <td className="text-center">{aluno.Historico}</td>
+                                                            <td className={`text-center 
+                                                            bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
+                                                            aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
+                                                            }`
+                                                            }>{aluno.Presente}</td>
+                                                            <td>
+                                                            <Actions CodigoContrato={aluno.CodigoContrato} handleGetInfoStudent={handleGetInfoStudent}/>
+                                                        </td>
+                                                        </tr>
+                                                    </>
+                                                )
+                                            }
+                                        })}
+                                </Tbody>
+                            </Table>
                         </div>
                     </Accordion>
                     </>
