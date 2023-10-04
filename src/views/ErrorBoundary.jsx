@@ -1,5 +1,5 @@
 import { isRouteErrorResponse, useRouteError } from "react-router-dom";
-
+import {Link} from "react-router-dom"
 export default function ErrorBoundary(){
     const error = useRouteError();
     if (isRouteErrorResponse(error)) {
@@ -20,5 +20,5 @@ export default function ErrorBoundary(){
         }
       }
     
-      return <div>Something went wrong</div>;
+      return <div>Something went wrong <Link to="/admin" className="btn btn-primary">Back to start</Link></div>;
 }

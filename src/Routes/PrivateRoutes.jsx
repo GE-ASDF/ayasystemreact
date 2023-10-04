@@ -6,6 +6,7 @@ import ErrorBoundary from "../views/ErrorBoundary";
 import Contatos from "../views/admin/agenda/pages/Contatos";
 import Historicos from "../views/admin/agenda/pages/Historicos";
 import { loaderContatos } from "../Loaders/loaderContatos";
+import { loaderHistoricos } from "../Loaders/loaderHistoricos";
 
 export default function PrivateRoutes(){
         return [{
@@ -28,7 +29,7 @@ export default function PrivateRoutes(){
                         {
                             path:"historicos/:CodigoContrato",
                             element: <Historicos />,
-                            loader:loaderContatos,
+                            loader:loaderHistoricos,
                             errorElement:<ErrorBoundary />,
                         }
                     ]
