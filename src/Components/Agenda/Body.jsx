@@ -44,6 +44,7 @@ export function Actions(props){
         <div className="d-flex gap-1">
             <Link title="Pegar contatos do aluno e ver históricos" className="btn btn-sm myBtnPrimary" to={`contatos/${props.CodigoContrato}`} onClick={props.handleGetInfoStudent}> <i className="bi bi-telephone-fill"></i></Link>
             <Link title="Históricos do aluno" className="btn btn-sm btn-warning" to={`historicos/${props.CodigoContrato}`} onClick={props.handleGetInfoStudent}> <i class="bi bi-file-earmark-medical"></i></Link>
+            {props.children}
         </div>
     )
 }

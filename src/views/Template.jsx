@@ -39,6 +39,9 @@ export default function Template(){
             }else{
                 setLogged(false)
             }
+        }).catch(()=>{
+            setLogged(false)
+            setLoading(false);
         }).finally(()=>{
             setLoading(false)
         })

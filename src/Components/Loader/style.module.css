@@ -1,0 +1,27 @@
+
+@keyframes is-rotating {
+    to{
+        transform: rotate(1turn);
+    }    
+}
+
+.Cloader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
+    position: absolute;
+    top:0;
+    background-color: transparent;    
+    z-index: 1;
+    left:0;
+}
+.loader{
+    animation: is-rotating 1s infinite;
+    border:25px solid #e5e5e5;
+    border-radius: 50%;
+    border-top-color: #51d4db;
+    height: 150px;
+    width: 150px;
+}

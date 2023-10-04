@@ -22,6 +22,8 @@ export default function App(){
       }else{
         setLogado(false);
       }
+    }).catch(()=>{
+      setLogado(false);
     })
   },[])
     

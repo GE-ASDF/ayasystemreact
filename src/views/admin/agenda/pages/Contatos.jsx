@@ -6,8 +6,9 @@ import { Card } from "../../../../Components/Cards/Cards";
 import Loader from "../../../../Components/Loader";
 
 export default function Contatos(){
-    const DataHistorico = new Date().toLocaleDateString('pt-br').split("/").reverse().join("-")
 
+
+    const DataHistorico = new Date().toLocaleDateString('pt-br').split("/").reverse().join("-")
     const {tipoAluno, data} = useLoaderData();
     const [historico, setHistorico] = useState({
         CodigoContrato: data.CodigoContrato,
@@ -54,6 +55,7 @@ export default function Contatos(){
     }
     return (
         <div style={{overflowY:"auto", maxHeight:"100%", height:"100%"}}>
+          
             <Button className="btn close btn-danger" onClick={()=> {handleGetInfoStudent(); handleNavigate()}} >X</Button>
             {loading && 
                 <Loader style={{minWidth:"0",width:"100%"}}  className={`d-flex justify-content-center `} />
@@ -75,12 +77,13 @@ export default function Contatos(){
                         <h4 className="fw-bold">Dados do histórico</h4>
                         <div className="form-group d-flex flex-column">
                             <span>Escolha uma data</span>
+                            
                             <input onChange={handleHistorico} defaultValue={`${DataHistorico}`} type="date" name="DataHistorico" className="form-control" id="" />
                         </div>
                         <div className="form-group d-flex flex-column justify-content-start align-items-start gap-2">
                             <span>Digite o histórico</span>
                             <textarea onChange={handleHistorico} defaultValue={`${historico.Historico}`} name="Historico" placeholder="Digite sua mensagem" className="form-control" id="" cols="30" rows="5"></textarea>
-                            <Button onClick={handleSaveHistorico} className={`btn-success btn-sm`}>Enviar</Button>
+                            <Button onClick={handleSaveHistorico} className={`btn myBtnPrimary btn-sm`}>Cadastrar</Button>
                         </div>
                     </div>
                 </Card>
