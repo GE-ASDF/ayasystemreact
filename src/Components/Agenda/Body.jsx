@@ -8,6 +8,7 @@ import Button from "../Button";
 import {Table,Tbody, Thead} from "../Table";
 
 export function TbodyWithSearch({data, search = '', handleGetInfoStudent}){
+ 
     return (
         <tbody>
             {data.map(el =>{
@@ -20,7 +21,9 @@ export function TbodyWithSearch({data, search = '', handleGetInfoStudent}){
                                     <td className="text-center">{aluno.MateriaAtual}</td>
                                     <td className="text-center">{aluno.tipoAluno}</td>
                                     <td className="text-center">{aluno.Computador}</td>
-                                    <td className="text-center">{aluno.Historico}</td>
+                                    <td title={`${aluno.Historico}`} className="text-center">
+                                        {aluno.Historico && `${aluno.Historico.slice(0, 20)}...`}
+                                    </td>
                                     <td className={`text-center 
                                     bg-${aluno.Presente.trim().toLowerCase() == 'p' ? 'success':
                                     aluno.Presente.trim().toLowerCase() == 'f' ? 'danger':'warning'
