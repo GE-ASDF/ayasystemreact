@@ -4,7 +4,7 @@ import {useOutletContext,useLocation, useLoaderData,useNavigate} from "react-rou
 import Button from "../../../../Components/Button";
 import { Card } from "../../../../Components/Cards/Cards";
 import Loader from "../../../../Components/Loader";
-
+import { getOnlyNumbers } from "../../../../helpers/getOnlyNumbers";
 export default function Contatos(){
 
 
@@ -27,26 +27,7 @@ export default function Contatos(){
         setLoading(false);
     },[tipoAluno])
     
-    const getOnlyNumbers = (number)=>{
-        const clear = number.replace(/[^0-9]/g,'')
-
-        if(!clear.startsWith('55')){
-            const newNumber = `55${clear}`;
-            if(newNumber.length == 13){
-                if(newNumber[4] == '9'){
-                    return newNumber.slice(0,4) + newNumber.slice(5)
-                }
-            }
-            return newNumber;
-        }else{
-            if(clear.length == 13){
-                if(clear[4] == '9'){
-                    return clear.slice(0,4) + clear.slice(5)
-                }
-            }
-            return clear;
-        }
-    }
+    
     const handleHistorico = (e)=>{
         setHistorico({...historico, [e.target.name]:e.target.value})
     }
