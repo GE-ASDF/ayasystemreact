@@ -7,6 +7,7 @@ import { AuthProvider } from "./Contexts/LoggedContext";
 import { useState,useEffect } from "react";
 import { checkAuth } from "./Loaders/checkAuth";
 import Loader from "./Components/Loader"
+import { AlertProvider } from "./Contexts/AlertContext";
 
 export default function App(){
   const [logado, setLogado] = useState(null);
@@ -26,20 +27,24 @@ export default function App(){
       setLogado(false);
     })
   },[])
-    
     return (
-      <ThemeProvider>
-          <AuthProvider>
-              <TemplateProvider>
-                  {logado !== null &&
-                    <RouterProvider router={router} >
-                    </RouterProvider>
-                  }
-                {logado == null && 
-                  <Loader />
-                }
-              </TemplateProvider>
-              </AuthProvider>
-      </ThemeProvider>        
+       
+          <AlertProvider>
+            <ThemeProvider>
+                <AuthProvider>
+                    <TemplateProvider>
+                        {logado !== null &&
+
+                          <RouterProvider router={router} >
+                          </RouterProvider>
+                        }
+                      {logado == null && 
+                        <Loader />
+                      }
+                    </TemplateProvider>
+                    </AuthProvider>
+            </ThemeProvider>        
+          </AlertProvider>
+
   )
 }

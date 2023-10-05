@@ -20,15 +20,17 @@ export default function Agenda(){
     });
     const [sistema, setSistema] = useState('all')
 
+    const handleChangeSystemBtn = (e)=>{
+        setBtnActive({btn: e.target.id, active: true})
+        setSistema(e.target.id);
+    }
+    
     const handleGetInfoStudent = ()=>{
         setGetInfoStudent(!getInfoStudent)
     }
 
  
-    const handleChangeSystemBtn = (e)=>{
-        setBtnActive({btn: e.target.id, active: true})
-        setSistema(e.target.id);
-    }
+ 
     const handleChangeDay = (e)=>{
         const day = e.target.value.trim();
         setWeekDay(day)

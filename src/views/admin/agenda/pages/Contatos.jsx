@@ -5,14 +5,22 @@ import Button from "../../../../Components/Button";
 import { Card } from "../../../../Components/Cards/Cards";
 import Loader from "../../../../Components/Loader";
 import { getOnlyNumbers } from "../../../../helpers/getOnlyNumbers";
+import {useTemplate} from "../../../../Contexts/TemplateContext";
+import Textarea from "../../../../Components/Forms/Textarea";
+import {useForm} from "react-hook-form"
+import { useAlert } from "../../../../Contexts/AlertContext";
 export default function Contatos(){
-
-
+    const {alert, setAlert} = useAlert();
+    const {dataUser} = useTemplate();
+    const userLogged = JSON.parse(dataUser);
+    const {control,handleSubmit} = useForm();
     const DataHistorico = new Date().toLocaleDateString('pt-br').split("/").reverse().join("-")
     const {tipoAluno, data} = useLoaderData();
     const [historico, setHistorico] = useState({
         CodigoContrato: data.CodigoContrato,
+        NomeAluno:data.NomeAluno,
         DataHistorico: DataHistorico,
+        ResponsavelHistorico:userLogged.Nome,
         Historico: 'Entrei em contato via WhatsApp.',
     });
     const [loading, setLoading] = useState(true);
@@ -31,7 +39,10 @@ export default function Contatos(){
     const handleHistorico = (e)=>{
         setHistorico({...historico, [e.target.name]:e.target.value})
     }
-    const handleSaveHistorico = ()=>{
+
+    const handleSaveHistorico = (e)=>{
+        e.preventDefault();
+        setAlert({type:"success",time:7, message:"Successo", show:true})
         console.log(historico);
     }
     return (
@@ -61,11 +72,11 @@ export default function Contatos(){
                             
                             <input onChange={handleHistorico} defaultValue={`${DataHistorico}`} type="date" name="DataHistorico" className="form-control" id="" />
                         </div>
-                        <div className="form-group d-flex flex-column justify-content-start align-items-start gap-2">
+                        <form onSubmit={handleSaveHistorico} className="form-group d-flex flex-column justify-content-start align-items-start gap-2">
                             <span>Digite o histórico</span>
                             <textarea onChange={handleHistorico} defaultValue={`${historico.Historico}`} name="Historico" placeholder="Digite sua mensagem" className="form-control" id="" cols="30" rows="5"></textarea>
-                            <Button onClick={handleSaveHistorico} className={`btn myBtnPrimary btn-sm`}>Cadastrar</Button>
-                        </div>
+                            <Button className={`btn myBtnPrimary btn-sm`}>Cadastrar</Button>
+                        </form>
                     </div>
                 </Card>
             </Card>

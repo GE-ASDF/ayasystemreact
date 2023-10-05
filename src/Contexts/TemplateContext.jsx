@@ -12,7 +12,7 @@ export const TemplateProvider = ({children})=>{
     useEffect(()=>{
         localStorage.setItem("logado", dataUser);
     },[dataUser])
-
+    
     return (
         <TemplateContext.Provider value={{dataUser, setDataUser}}>
             {children}

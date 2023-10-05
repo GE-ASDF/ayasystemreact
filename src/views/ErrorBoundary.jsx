@@ -1,7 +1,8 @@
-import { isRouteErrorResponse, useRouteError } from "react-router-dom";
+import { isRouteErrorResponse, useLocation, useRouteError } from "react-router-dom";
 import {Link} from "react-router-dom"
 export default function ErrorBoundary(){
     const error = useRouteError();
+
     if (isRouteErrorResponse(error)) {
         if (error.status === 404) {
           return <div>This page doesn't exist!</div>;

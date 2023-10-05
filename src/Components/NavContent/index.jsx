@@ -3,10 +3,21 @@ import hookGetDateTime from "../../Hooks/hookGetDateTime";
 import style from "./style.module.css"
 import Button from "../Button";
 import { useTemplate } from "../../Contexts/TemplateContext";
-
+import { useState } from "react";
+import { useEffect } from "react";
+import fetchData from "../../utils/http";
+import { useAlert } from "../../Contexts/AlertContext";
+import Loader from "../Loader";
+import Modal from "../Modal";
+import { useTheme } from "../../Contexts/ThemeContext";
+import {normalizeString} from "../../utils/normalizeString";
 
 
 export default function NavContent(props){
+    const themeCtx = useTheme();
+    const {alert, setAlert} = useAlert();
+    const [gradeFlex, setGradeFlex] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [time] = hookGetDateTime()
     const {dataUser} = useTemplate();
     const data = JSON.parse(dataUser)
@@ -17,8 +28,33 @@ export default function NavContent(props){
         sessionStorage.removeItem("logado")
         navigate("/login")
     }
-    
+    const [btnActive, setBtnActive] = useState({
+        btn:'all',
+        active:true,
+    });
+    const [sistema, setSistema] = useState('all')
+
+    const handleChangeSystemBtn = (e)=>{
+        setBtnActive({btn: e.target.id, active: true})
+        setSistema(e.target.id);
+    }
+    const getGradeFlex = async ()=>{
+        setLoading(true);
+        const grade = await fetchData("/admin/gradeflex");
+   
+        if(grade.error){
+            setAlert({type:'danger', message:"Não foi possível obter a grade flex.", show:true, time:7})
+            return;
+        }else{
+            setGradeFlex(grade);
+        }
+    }
+    useEffect(()=>{
+        setLoading(false);
+    },[gradeFlex, alert])
+
     return (
+        <>
         <nav className={style.navMain}>
             <div className={style.containerLinks}>
             <div className={style.navContent}>
@@ -35,11 +71,69 @@ export default function NavContent(props){
                     <Link className="nav-item" to="/admin"><i className="bi bi-house-door"></i> Início</Link>
                 </li>
                 <li className={`${style.navLinkItem} nav-item w-100`}>
-                    <Button className={`${style.backTransparent}`}><i className="bi bi-stopwatch"></i> Grade flex</Button>
+                    <Button data-bs-toggle="modal" data-bs-target="#gradeflex" onClick={getGradeFlex} className={`${style.backTransparent}`}><i className="bi bi-stopwatch"></i> Grade flex</Button>
                 </li>
             </ul>
             </div>
                 <Link className={`${style.navLinkItem} ${style.logout}`} onClick={handleLogout}><i className="bi bi-box-arrow-right"></i></Link>
         </nav>
+        <Modal className={`${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`} modalSize="modal-fullscreen" modalTitle="Grade flex" id="gradeflex">
+            <div className="col-lg-6 p-1 d-flex align-items-center col-sm-6 form-group">
+                <h5 className={`fs-6 `}>Sistema</h5>
+                <Button onClick={handleChangeSystemBtn} id="all" className={`btn btn-sm mx-1     ${themeCtx?.theme == "dark" ? "text-light":""}  ${btnActive.btn == 'all' ?         style.myBtnPrimary:""}`}>Todos</Button>
+                <Button onClick={handleChangeSystemBtn} id="prepara" className={`btn btn-sm mx-1 ${themeCtx?.theme == "dark" ? "text-light":""}  ${btnActive.btn == 'prepara' ?  style.myBtnPrimary:""}`}>Prepara</Button>
+                <Button onClick={handleChangeSystemBtn} id="ouro" className={`btn btn-sm mx-1    ${themeCtx?.theme == "dark" ? "text-light":""} ${btnActive.btn == 'ouro' ?      style.myBtnPrimary:""}`}>Ouro</Button>
+            </div>
+            {loading && <Loader />}
+            {!loading &&
+                <table className={`table table-${themeCtx}`}>
+                    <thead >
+                        <tr>
+                            <th className="text-center">Hora início</th>
+                            <th className="text-center">Segunda-feira</th>
+                            <th className="text-center">Terça-feira</th>
+                            <th className="text-center">Quartaa-feira</th>
+                            <th className="text-center">Quintaa-feira</th>
+                            <th className="text-center">Sexta-feira</th>
+                            <th className="text-center">Sábado</th>
+                            <th className="text-center">Domingo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {gradeFlex.map((grade)=>{
+                            return(
+                                <tr key={grade.HoraInicio}>
+                                    <td className="text-center">{grade.HoraInicio}</td>
+                                    {grade.Alunos.map(aluno =>{
+
+                                            return (
+                                            <>
+                                                <td className={`${20 - aluno.Alunos.length > 0 ? "bg-success":"bg-danger"}`} key={aluno.DiaDaSemana}>
+                                                    <div className="d-flex flex-column justify-content-center align-items-center">
+                                                        <span className="fw-bold">
+                                                            Vagas:{sistema == 'all' && aluno.Alunos.length - 20}
+                                                            {sistema != 'all' && aluno.Alunos.map((aluno)=>{
+                                                                if(aluno.tipoAluno.toLowerCase() == sistema){
+                                                                    return aluno
+                                                                }
+                                                            }).length - 20}
+                                                        </span>
+                                                        <span className="fw-bold">
+                                                            Ocup.:{sistema == 'all' ? aluno.Alunos.length - 20:aluno.Alunos.map( al => al.tipoAluno == sistema).length - 20}/20
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                            </>
+                                            )
+                                        })
+                                    }                            
+                                </tr>
+                            ) 
+                        })}
+                    </tbody>
+                </table>
+            }
+        </Modal>
+        </>
     )
 }
