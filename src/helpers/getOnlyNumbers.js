@@ -1,12 +1,17 @@
+import config from "../../config/config";
+
+
 /**
  * Remove o nono dígito de um número de telefone se o tamanho dele for igual a variável sizeNumber
  * @param {string} number - O número de telefone com o nono dígito
  * @returns {string} - O número de telefone sem o nono dígito
  */
-function removeNineDigit(number, sizeNumber){
-    const lengthCodeCountry = import.meta.env.VITE_CODE_COUNTRY_AND_DDD;
-    if(number.length == sizeNumber){
-        return `${number.slice(0, lengthCodeCountry.length)}${number.slice(lengthCodeCountry.length + 1)}`
+
+
+export function removeNineDigit(number, sizeNumber){
+    const lengthCodeCountry = config.countryCodeAndDDD.length;
+    if(number.length >= sizeNumber){
+        return `${number.slice(0, config.countryCodeAndDDD.length)}${number.slice(config.countryCodeAndDDD.length + 1)}`
     }
     return number;
 }
@@ -16,9 +21,8 @@ function removeNineDigit(number, sizeNumber){
  * @param {string} number - O número de telefone sem o código do país
  * @returns {string} - O número de telefone com o código do país
  */
-function setCodeCountry(number){
-    const code = import.meta.env.VITE_CODE_COUNTRY;
-    return `${code}${number}`;
+export function setCodeCountry(number){
+    return `${config.countryCode}${number}`;
 }
 
 /**
@@ -27,8 +31,7 @@ function setCodeCountry(number){
  * @returns {string} - O número de telefone verificado
  */
 function verifyCodeCountry(number){
-    const code = import.meta.env.VITE_CODE_COUNTRY
-    const regexCodeCountry = new RegExp(`^${code}`);
+    const regexCodeCountry = new RegExp(`^${config.countryCode}`);
     if(regexCodeCountry.test(number)){
         return number;
     }else{
