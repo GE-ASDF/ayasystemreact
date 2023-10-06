@@ -65,7 +65,7 @@ export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
     const handleSearch = (e)=>{
         setSearch(e.target.value.trim().normalize("NFD").toLowerCase())
     }
-    console.log(agenda);
+
     const [showMetadata, setShowMetadata] = useState(false);
     const themeCtx = useTheme();
     return (

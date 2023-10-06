@@ -1,0 +1,39 @@
+.myBtnPrimary{
+    background: #B34EB6;
+    color:#fff;
+}
+.myBtnPrimary:hover{
+    color:#000;
+}
+.detail{
+    width: 50px;
+    border-radius: 10px;
+}
+
+.iconsPurple{
+    color:#B34EB6;
+}
+.myBgPrimary{
+    color:#fff;
+    background:linear-gradient(to top, #101010 5%, purple);
+}
+.myBgPrimary:hover{
+    color:#fff;
+}
+.rightSide{
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top:0;
+    right:0;
+    width: 300px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+    padding:10px;
+    height: 100vh;
+    background-color: rgba(35, 35, 35,0.9);
+}
+.dialog{
+    width: 100%;
+    z-index: 2;
+}

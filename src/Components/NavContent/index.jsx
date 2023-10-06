@@ -51,7 +51,7 @@ export default function NavContent(props){
     }
     useEffect(()=>{
         setLoading(false);
-    },[gradeFlex, alert])
+    },[gradeFlex,sistema, alert])
 
     return (
         <>
@@ -77,7 +77,7 @@ export default function NavContent(props){
             </div>
                 <Link className={`${style.navLinkItem} ${style.logout}`} onClick={handleLogout}><i className="bi bi-box-arrow-right"></i></Link>
         </nav>
-        <Modal className={`${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`} modalSize="modal-fullscreen" modalTitle="Grade flex" id="gradeflex">
+        <Modal className={`${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`} modalSize="modal-fullscreen" modalTitle={`Grade flex ${sistema != 'all' ?  sistema.charAt(0).toUpperCase() + sistema.slice(1):''}`} id="gradeflex">
             <div className="col-lg-6 p-1 d-flex align-items-center col-sm-6 form-group">
                 <h5 className={`fs-6 `}>Sistema</h5>
                 <Button onClick={handleChangeSystemBtn} id="all" className={`btn btn-sm mx-1     ${themeCtx?.theme == "dark" ? "text-light":""}  ${btnActive.btn == 'all' ?         style.myBtnPrimary:""}`}>Todos</Button>
@@ -111,15 +111,15 @@ export default function NavContent(props){
                                                 <td className={`${20 - aluno.Alunos.length > 0 ? "bg-success":"bg-danger"}`} key={aluno.DiaDaSemana}>
                                                     <div className="d-flex flex-column justify-content-center align-items-center">
                                                         <span className="fw-bold">
-                                                            Vagas:{sistema == 'all' && aluno.Alunos.length - 20}
-                                                            {sistema != 'all' && aluno.Alunos.map((aluno)=>{
-                                                                if(aluno.tipoAluno.toLowerCase() == sistema){
-                                                                    return aluno
-                                                                }
-                                                            }).length - 20}
+                                                            Vagas:{sistema == 'all' && 20 - aluno.Alunos.length}
+                                                            {sistema == 'ouro' && <span>{5 - aluno.Alunos.filter(al => al.tipoAluno.trim().toLowerCase() == 'ouro').length}</span>}
+                                                            {sistema == 'prepara' && <span>{20 - aluno.Alunos.filter(al => al.tipoAluno.trim().toLowerCase() == 'prepara').length}</span>}
                                                         </span>
                                                         <span className="fw-bold">
-                                                            Ocup.:{sistema == 'all' ? aluno.Alunos.length - 20:aluno.Alunos.map( al => al.tipoAluno == sistema).length - 20}/20
+                                                            Ocup.:{sistema == 'all' && <span>{aluno.Alunos.length}/20</span>}
+                                                            {sistema == 'ouro' && <span>{aluno.Alunos.filter(al => al.tipoAluno.trim().toLowerCase() == 'ouro').length}/5</span>}
+                                                            {sistema == 'prepara' && <span>{aluno.Alunos.filter(al => al.tipoAluno.trim().toLowerCase() == 'prepara').length}/20</span>}
+                                                            
                                                         </span>
                                                     </div>
                                                 </td>

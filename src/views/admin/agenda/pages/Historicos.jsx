@@ -4,6 +4,7 @@ import { Card } from "../../../../Components/Cards/Cards";
 import Alert from "../../../../Components/Alert";
 import { useState } from "react";
 import { hookShowMessage } from "../../../../Hooks/hookShowMessage";
+import { formatDateToUser } from "../../../../utils/formatDateBD";
 export default function Contatos(){
     const historicos = useLoaderData();
     const local = useLocation().pathname.split("/historicos").filter((el)=> el); 
@@ -14,7 +15,7 @@ export default function Contatos(){
     const handleTypeHistorico = (e)=>{
         setHistorico({CodigoHistorico: e.target.id, Historico:e.target.value})
     }
-    console.log(historico);
+
     const [handleGetInfoStudent] = useOutletContext();
     const navigate = useNavigate();
     const handleNavigate = ()=>{
@@ -36,7 +37,7 @@ export default function Contatos(){
                                     <div className="d-flex flex-column">
                                         <span className="">Informações do histórico:</span>
                                         <span>Responsável: {historico.ResponsavelHistorico}</span>
-                                        <span>Data do histórico: {new Date(historico.DataHistorico).toLocaleDateString('pt-Br')}</span>
+                                        <span>Data do histórico: {formatDateToUser(historico.DataHistorico)}</span>
                                     </div>
                                     <textarea onChange={handleTypeHistorico} defaultValue={`${historico.Historico}`} className="form-control" name="Historico" id={`${historico.CodigoHistorico}`} cols="30" rows="5">
                                     </textarea>

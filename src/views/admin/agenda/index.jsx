@@ -28,8 +28,6 @@ export default function Agenda(){
     const handleGetInfoStudent = ()=>{
         setGetInfoStudent(!getInfoStudent)
     }
-
- 
  
     const handleChangeDay = (e)=>{
         const day = e.target.value.trim();

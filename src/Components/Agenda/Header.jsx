@@ -32,7 +32,7 @@ export const Header = ({onClick,  day, sistema, onChange, btnActive})=>{
                         </div>
                         <div className="col-lg-6 p-1 d-flex align-items-center col-sm-6 form-group">
                             <h5 className={`fs-6 `}>Sistema</h5>
-                            <Button onClick={handle} id="all" className={`btn btn-sm mx-1     ${themeCtx?.theme == "dark" ? "text-light":""}  ${btnActive.btn == 'all' ?         style.myBtnPrimary:""}`}>Todos</Button>
+                            <Button onClick={onClick} id="all" className={`btn btn-sm mx-1     ${themeCtx?.theme == "dark" ? "text-light":""}  ${btnActive.btn == 'all' ?         style.myBtnPrimary:""}`}>Todos</Button>
                             <Button onClick={onClick} id="prepara" className={`btn btn-sm mx-1 ${themeCtx?.theme == "dark" ? "text-light":""}  ${btnActive.btn == 'prepara' ?  style.myBtnPrimary:""}`}>Prepara</Button>
                             <Button onClick={onClick} id="ouro" className={`btn btn-sm mx-1    ${themeCtx?.theme == "dark" ? "text-light":""} ${btnActive.btn == 'ouro' ?      style.myBtnPrimary:""}`}>Ouro</Button>
                         </div>

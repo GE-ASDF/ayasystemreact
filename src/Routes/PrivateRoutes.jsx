@@ -7,6 +7,8 @@ import Contatos from "../views/admin/agenda/pages/Contatos";
 import Historicos from "../views/admin/agenda/pages/Historicos";
 import { loaderContatos } from "../Loaders/loaderContatos";
 import { loaderHistoricos } from "../Loaders/loaderHistoricos";
+import { loaderPresencas } from "../Loaders/loaderPresencas";
+import Presencas from "../views/admin/presencas";
 
 export default function PrivateRoutes(){
         return [{
@@ -35,9 +37,24 @@ export default function PrivateRoutes(){
                     ]
                 },
                 {
-                    path:"presencas",
-                    element: <Agenda />,
+                    path:"presencas/:DataPresenca?",
+                    element: <Presencas />,
+                    loader:loaderPresencas,
                     errorElement:<ErrorBoundary />,
+                    children:[
+                        {
+                            path:"contatos/:CodigoContrato",
+                            element: <Contatos />,
+                            loader:loaderContatos,
+                            errorElement:<ErrorBoundary />,
+                        },
+                        {
+                            path:"historicos/:CodigoContrato",
+                            element: <Historicos />,
+                            loader:loaderHistoricos,
+                            errorElement:<ErrorBoundary />,
+                        }
+                    ]
                 },
             ],
         },

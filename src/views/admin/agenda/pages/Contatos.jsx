@@ -5,22 +5,20 @@ import Button from "../../../../Components/Button";
 import { Card } from "../../../../Components/Cards/Cards";
 import Loader from "../../../../Components/Loader";
 import { getOnlyNumbers } from "../../../../helpers/getOnlyNumbers";
-<<<<<<< HEAD
 import {useTemplate} from "../../../../Contexts/TemplateContext";
 import Textarea from "../../../../Components/Forms/Textarea";
 import {useForm} from "react-hook-form"
 import { useAlert } from "../../../../Contexts/AlertContext";
+import fetchData from "../../../../utils/http";
+   
+
+
+
 export default function Contatos(){
     const {alert, setAlert} = useAlert();
     const {dataUser} = useTemplate();
     const userLogged = JSON.parse(dataUser);
     const {control,handleSubmit} = useForm();
-=======
-
-
-export default function Contatos(){
-
->>>>>>> 755015cafae21b5f629cf22c0323892824a20174
     const DataHistorico = new Date().toLocaleDateString('pt-br').split("/").reverse().join("-")
     const {tipoAluno, data} = useLoaderData();
 
@@ -50,10 +48,21 @@ export default function Contatos(){
         setHistorico({...historico, [e.target.name]:e.target.value})
     }
 
-    const handleSaveHistorico = (e)=>{
+    const handleSaveHistorico = async (e)=>{
         e.preventDefault();
-        setAlert({type:"success",time:7, message:"Successo", show:true})
-        console.log(historico);
+        const response = await fetchData('/admin/historicoscreate','POST',historico);
+        console.log(historico)
+        if(response.affectedRows >= 1){
+            setAlert({show:true,
+                type:'success',
+                message:'Histórico cadastrado com sucesso',
+                time: 7,})
+        }else{
+            setAlert({show:true,
+                type:'danger',
+                message:'Histórico não foi cadastrado.',
+                time: 7,})
+        }
     }
     return (
         <div style={{overflowY:"auto", maxHeight:"100%", height:"100%"}}>
@@ -79,14 +88,13 @@ export default function Contatos(){
                         <h4 className="fw-bold">Dados do histórico</h4>
                         <div className="form-group d-flex flex-column">
                             <span>Escolha uma data</span>
-                            
                             <input onChange={handleHistorico} defaultValue={`${DataHistorico}`} type="date" name="DataHistorico" className="form-control" id="" />
                         </div>
-                        <form onSubmit={handleSaveHistorico} className="form-group d-flex flex-column justify-content-start align-items-start gap-2">
+                        <div  className="form-group d-flex flex-column justify-content-start align-items-start gap-2">
                             <span>Digite o histórico</span>
                             <textarea onChange={handleHistorico} defaultValue={`${historico.Historico}`} name="Historico" placeholder="Digite sua mensagem" className="form-control" id="" cols="30" rows="5"></textarea>
-                            <Button className={`btn myBtnPrimary btn-sm`}>Cadastrar</Button>
-                        </form>
+                            <Button onClick={handleSaveHistorico} className={`btn myBtnPrimary btn-sm`}>Cadastrar</Button>
+                        </div>
                     </div>
                 </Card>
             </Card>
