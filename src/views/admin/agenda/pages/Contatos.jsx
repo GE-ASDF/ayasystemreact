@@ -5,6 +5,7 @@ import Button from "../../../../Components/Button";
 import { Card } from "../../../../Components/Cards/Cards";
 import Loader from "../../../../Components/Loader";
 import { getOnlyNumbers } from "../../../../helpers/getOnlyNumbers";
+<<<<<<< HEAD
 import {useTemplate} from "../../../../Contexts/TemplateContext";
 import Textarea from "../../../../Components/Forms/Textarea";
 import {useForm} from "react-hook-form"
@@ -14,8 +15,15 @@ export default function Contatos(){
     const {dataUser} = useTemplate();
     const userLogged = JSON.parse(dataUser);
     const {control,handleSubmit} = useForm();
+=======
+
+
+export default function Contatos(){
+
+>>>>>>> 755015cafae21b5f629cf22c0323892824a20174
     const DataHistorico = new Date().toLocaleDateString('pt-br').split("/").reverse().join("-")
     const {tipoAluno, data} = useLoaderData();
+
     const [historico, setHistorico] = useState({
         CodigoContrato: data.CodigoContrato,
         NomeAluno:data.NomeAluno,
@@ -23,17 +31,19 @@ export default function Contatos(){
         ResponsavelHistorico:userLogged.Nome,
         Historico: 'Entrei em contato via WhatsApp.',
     });
+
     const [loading, setLoading] = useState(true);
     const local = useLocation().pathname.split("/contatos").filter((el)=> el);   
     const [handleGetInfoStudent] = useOutletContext();
     const navigate = useNavigate();
+
     const handleNavigate = ()=>{
         navigate(`${local[0]}`);
     }
     
     useEffect(()=>{
         setLoading(false);
-    },[tipoAluno])
+    },[tipoAluno,data])
     
     
     const handleHistorico = (e)=>{
@@ -52,7 +62,7 @@ export default function Contatos(){
             {loading && 
                 <Loader style={{minWidth:"0",width:"100%"}}  className={`d-flex justify-content-center `} />
             }
-            <Card  className="mt-2 p-1 bg-dark border text-white">
+            <Card className="mt-2 p-1 bg-dark border text-white">
                 <h1 className="title text-center fs-3">{data.NomeAluno}</h1>
                 <Card className="mt-2 p-1 bg-dark text-white">
                     <h4 className="fs-6">Informações de contato:</h4>
