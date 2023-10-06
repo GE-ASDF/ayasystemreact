@@ -10,6 +10,7 @@ import Textarea from "../../../../Components/Forms/Textarea";
 import {useForm} from "react-hook-form"
 import { useAlert } from "../../../../Contexts/AlertContext";
 import fetchData from "../../../../utils/http";
+import { normalizeString } from "../../../../utils/normalizeString";
    
 
 
@@ -43,6 +44,17 @@ export default function Contatos(){
         setLoading(false);
     },[tipoAluno,data])
     
+    useEffect(()=>{
+        const handleKeyEsc = (e)=>{
+            const esc = normalizeString(e.key);
+            if(esc == 'escape'){
+                handleGetInfoStudent();
+                handleNavigate();
+            }
+        }
+        document.addEventListener("keydown",handleKeyEsc)
+        return ()=> document.removeEventListener("keydown", handleKeyEsc)
+    })
     
     const handleHistorico = (e)=>{
         setHistorico({...historico, [e.target.name]:e.target.value})

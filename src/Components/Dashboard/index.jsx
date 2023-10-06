@@ -11,11 +11,11 @@ export default function DashBoard(){
     return (
         <>
         <div className={style.batContainer}>
-            <BatCard href="/admin/presencas">
+            <BatCard linkTo="/admin/presencas">
                 <i className="bi bi-check2-circle"></i>
                 <span className="fs-6">Presenças</span>
             </BatCard>
-            <BatCard href="/admin/agenda">
+            <BatCard linkTo="/admin/agenda">
                 <i className="bi fs-7 bi-calendar-date"></i>
                 <span className="fs-6">Agenda</span>
             </BatCard>

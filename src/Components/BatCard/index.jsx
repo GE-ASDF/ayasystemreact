@@ -3,7 +3,7 @@ import style from "./style.module.css"
 export default function BatCard(props){
     return (
         <div className={style.mycard}>
-            <Link className={style.navLinkBat} to={`${props.href ? props.href:''}`}>
+            <Link className={style.navLinkBat} to={`${props.linkTo ? props.linkTo:''}`}>
                 <div className={style.orelhas}></div>
                 <div className={`${style.orelhas} ${style.right}`}></div>
                 <div className={style.myCardBody}>

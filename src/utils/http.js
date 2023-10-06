@@ -1,7 +1,7 @@
-const session = localStorage.getItem("logado");
-const sessionStored = JSON.parse(session);
-export let TOKEN = sessionStored?.token;
-
+import Cookies from "js-cookie"
+// const session = localStorage.getItem("logado");
+// const sessionStored = JSON.parse(session);
+export let TOKEN = Cookies.get("token")
 const Authorization = TOKEN ? `${TOKEN}`:"no";
 const BASE_URL = import.meta.env.VITE_BASE_URL_BACKEND;
 const defaultHeaders = {

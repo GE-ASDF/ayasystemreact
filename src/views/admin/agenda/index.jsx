@@ -36,6 +36,7 @@ export default function Agenda(){
         setGetInfoStudent(false);
         navigate(`/admin/agenda/${day}`)
     }
+
     return (
         <div className="d-flex flex-column">
             {loading &&

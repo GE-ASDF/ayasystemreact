@@ -11,7 +11,7 @@ import Loader from "../Loader";
 import Modal from "../Modal";
 import { useTheme } from "../../Contexts/ThemeContext";
 import {normalizeString} from "../../utils/normalizeString";
-
+import Cookies from "js-cookie"
 
 export default function NavContent(props){
     const themeCtx = useTheme();
@@ -26,6 +26,7 @@ export default function NavContent(props){
         e.preventDefault();
         localStorage.removeItem("logado");
         sessionStorage.removeItem("logado")
+        Cookies.remove("token");
         navigate("/login")
     }
     const [btnActive, setBtnActive] = useState({
@@ -86,14 +87,14 @@ export default function NavContent(props){
             </div>
             {loading && <Loader />}
             {!loading &&
-                <table className={`table table-${themeCtx}`}>
+                <table className={`table table-${themeCtx.theme}`}>
                     <thead >
                         <tr>
                             <th className="text-center">Hora início</th>
                             <th className="text-center">Segunda-feira</th>
                             <th className="text-center">Terça-feira</th>
-                            <th className="text-center">Quartaa-feira</th>
-                            <th className="text-center">Quintaa-feira</th>
+                            <th className="text-center">Quarta-feira</th>
+                            <th className="text-center">Quinta-feira</th>
                             <th className="text-center">Sexta-feira</th>
                             <th className="text-center">Sábado</th>
                             <th className="text-center">Domingo</th>

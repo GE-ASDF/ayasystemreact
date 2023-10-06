@@ -11,26 +11,23 @@ import { useEffect } from "react";
 import { checkAuth } from "../Loaders/checkAuth";
 import { useState } from "react";
 import {api} from "../utils/api";
-
+import Cookies from "js-cookie"
 export default function Template(){
     const [loading, setLoading] = useState(false)
     const [logged, setLogged] = useState(true)
     const navigate = useNavigate();
     
     useEffect(()=>{
+        const token = Cookies.get("token");
         const session = localStorage.getItem("logado");
+      
         if(!session){
             navigate("/login")
         }
-        const jsonSession = JSON.parse(session);
-        const TOKEN = jsonSession?.token;
-        
-        if(!TOKEN){
-            navigate("/login")
-        }
+   
         
         fetch("http://localhost:3001/verifyToken",{method:"POST", headers:{
-            Authorization: TOKEN,
+            Authorization: token,
             "Content-Type": "application/json"
         }}).then((res)=> res.json())
         .then((res)=>{

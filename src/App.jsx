@@ -8,9 +8,11 @@ import { useState,useEffect } from "react";
 import { checkAuth } from "./Loaders/checkAuth";
 import Loader from "./Components/Loader"
 import { AlertProvider } from "./Contexts/AlertContext";
+import Cookies from "js-cookie"
 
 export default function App(){
   const [logado, setLogado] = useState(null);
+  const [loading, setLoading] = useState(false);
   const router =  createBrowserRouter([
     ...(logado == true ? PrivateRoutes() : []), // Condicionalmente adiciona rotas privadas
     ...PublicRoutes()
@@ -26,12 +28,13 @@ export default function App(){
     }).catch(()=>{
       setLogado(false);
     })
-  },[])
+  },[logado])
+    if(loading){
+      return <Loader />
+    }
     return (
-       
           <AlertProvider>
             <ThemeProvider>
-                <AuthProvider>
                     <TemplateProvider>
                         {logado !== null &&
 
@@ -42,7 +45,6 @@ export default function App(){
                         <Loader />
                       }
                     </TemplateProvider>
-                    </AuthProvider>
             </ThemeProvider>        
           </AlertProvider>
 

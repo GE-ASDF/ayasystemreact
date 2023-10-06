@@ -6,6 +6,7 @@ import { Accordion } from "../Accordion/Accordion";
 import { useTheme } from "../../Contexts/ThemeContext";
 import Button from "../Button";
 import {Table,Tbody, Thead} from "../Table";
+import { normalizeString } from "../../utils/normalizeString";
 
 export function TbodyWithSearch({data, search = '', handleGetInfoStudent}){
  
@@ -13,7 +14,7 @@ export function TbodyWithSearch({data, search = '', handleGetInfoStudent}){
         <tbody>
             {data.map(el =>{
                 return el.Alunos.map((aluno, key) =>{
-                    if((search && aluno.NomeAluno.trim().toLowerCase().normalize("NFD").includes(search)) || !search){
+                    if((normalizeString(aluno.NomeAluno).includes(normalizeString(search)) || normalizeString(aluno.CodigoContrato).includes(normalizeString(search)))){
                             return (
                                 <tr key={aluno.CodigoContrato}>
                                     <td className="text-center">{aluno.CodigoContrato}</td>
@@ -46,7 +47,7 @@ export function Actions(props){
     return (
         <div className="d-flex gap-1">
             <Link title="Pegar contatos do aluno e ver históricos" className="btn btn-sm myBtnPrimary" to={`contatos/${props.CodigoContrato}`} onClick={props.handleGetInfoStudent}> <i className="bi bi-telephone-fill"></i></Link>
-            <Link title="Históricos do aluno" className="btn btn-sm btn-warning" to={`historicos/${props.CodigoContrato}`} onClick={props.handleGetInfoStudent}> <i class="bi bi-file-earmark-medical"></i></Link>
+            <Link title="Históricos do aluno" className="btn btn-sm btn-warning" to={`historicos/${props.CodigoContrato}`} onClick={props.handleGetInfoStudent}> <i className="bi bi-file-earmark-medical"></i></Link>
             {props.children}
         </div>
     )
@@ -57,6 +58,7 @@ export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
     const [search, setSearch] = useState(null);
     const data = agenda[0].Data;
     const keysMetadata = [...Object.keys(metadata)];
+    const temp = [];
     const head = ['Código do contrato', 'Nome do aluno','Matéria atual','Sistema','Computador','Histórico','Situação','Ações']
     useEffect(()=>{
         loading.setLoading(false)
@@ -74,7 +76,7 @@ export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
                 <button onClick={()=> setShowMetadata(!showMetadata)} className={`btn p-1 btn-sm ${style.myBtnPrimary} ${themeCtx?.theme == "dark" ? "text-light":""}`}>Mostrar informações</button>
                 {showMetadata && 
                 <div className="d-flex justify-content-between align-items-between gap-2 mt-2 w-100">
-                        {keysMetadata.map((key) =>{
+                        {sistema == 'all' && keysMetadata.map((key) =>{
                         return (
                             <>
                                 <Card className={`mt-2 ${themeCtx?.theme == "dark" ? "bg-dark border text-light":"bg-light"}`}>
@@ -91,6 +93,70 @@ export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
                             </>
                         )
                         })}
+                        {sistema != 'all' &&
+
+                                <>
+                                    <Card className={`mt-2 ${themeCtx?.theme == "dark" ? "bg-dark border text-light":"bg-light"}`}>
+                                        <CardHeader className={`bg-success text-white`}> 
+                                            <h6>Presentes</h6>
+                                        </CardHeader>
+                                        <CardBody className={`fs-4 d-flex flex justify-content-between`}>
+                                            <div>{
+                                                data.map(al =>{
+                                                    const res = al.Alunos.filter(el =>{
+                                                        if(normalizeString(el.tipoAluno) == normalizeString(sistema) && normalizeString(el.Presente) == 'p' && !temp.includes(el.CodigoContrato)){
+                                                            temp.push(el.CodigoContrato)
+                                                            return el;
+                                                        }
+                                                    })
+                                                    return res.length
+                                                },[]).reduce((prev, accum) => prev + accum, 0)
+                                                }</div>
+                                            {<div><i className={`${style.iconsPurple} bi bi-person-raised-hand`}></i></div>}
+                                        </CardBody>
+                                    </Card>
+                                    <Card className={`mt-2 ${themeCtx?.theme == "dark" ? "bg-dark border text-light":"bg-light"}`}>
+                                        <CardHeader className={`bg-danger text-white`}> 
+                                            <h6>Faltosos</h6>
+                                        </CardHeader>
+                                        <CardBody className={`fs-4 d-flex justify-content-between`}>
+                                            <div>{
+                                                data.map(al =>{
+                                                    const res = al.Alunos.filter(el =>{
+                                                        if(normalizeString(el.tipoAluno) == normalizeString(sistema) && normalizeString(el.Presente) == 'f' && !temp.includes(el.CodigoContrato)){
+                                                            temp.push(el.CodigoContrato)
+                                                            return el;
+                                                        }
+                                                    })
+                                                    return res.length
+                                                },[]).reduce((prev, accum) => prev + accum, 0)
+                                                }</div>
+                                            {<div><i className={`${style.iconsPurple} bi bi-x-circle-fill`}></i></div>}
+                                        </CardBody>
+                                    </Card>
+                                    <Card className={`mt-2 ${themeCtx?.theme == "dark" ? "bg-dark border text-light":"bg-light"}`}>
+                                        <CardHeader className={`bg-warning text-white`}> 
+                                            <h6>EaD</h6>
+                                        </CardHeader>
+                                        <CardBody className={`fs-4 d-flex justify-content-between`}>
+                                            <div>{
+                                                data.map(al =>{
+                                                    const res = al.Alunos.filter(el =>{
+                                                        if(normalizeString(el.tipoAluno) == normalizeString(sistema) && normalizeString(el.Presente) == 'ead' && !temp.includes(el.CodigoContrato)){
+                                                            temp.push(el.CodigoContrato)
+                                                            return el;
+                                                        }
+                                                    })
+                                                    return res.length
+                                                },[]).reduce((prev, accum) => prev + accum, 0)
+                                                }</div>
+                                                {<div><i className={`${style.iconsPurple} bi bi-bookmark-fill`}></i></div>}
+                                        </CardBody>
+                                    </Card>
+                                </>
+                     
+                        
+                        }
                     </div>
                     }
                 </div>

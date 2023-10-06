@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import fetchData from "../utils/http";
-import {createUserSession} from "../utils/createUserSession";
+import {createUserSession, setUserCookie} from "../utils/createUserSession";
 import {useNavigate} from "react-router-dom"
 import Loader from "../Components/Loader";
 import Button from "../Components/Button";
@@ -9,20 +9,28 @@ import Input from "../Components/Forms/SignIn/SignIn";
 import Alert from "../Components/Alert";
 import {checkAuth} from "../Loaders/checkAuth"
 import { useAlert } from "../Contexts/AlertContext";
+import Cookies from "js-cookie";
 export default function Login(){
     const {alert, setAlert} = useAlert();
     const {control, handleSubmit} = useForm();
     const [loading, setLoading] = useState(false)
-
-
+    const navigate = useNavigate();
+    const [cookieOk, setCookie] = useState(false)
     const handleLoginSubmit = async ()=>{
         setLoading(true)
         try{
             const response = await fetchData("/auth", 'POST', control._formValues);
+
             if(response.error == false){
+                setUserCookie(response.token)
+                delete response.token;
                 createUserSession(response);                    
                 setLoading(false);
-                window.location.href = "/admin"
+                if(verifyCookie()){
+                    navigate("/admin")
+                }
+                // navigate("/admin")
+                // window.location.href = "/admin"
             }else if(response.error == true){
                 setLoading(false)
                 setAlert({type:'danger',show:true,time:7,message:response.message})
@@ -32,7 +40,12 @@ export default function Login(){
         }
         setLoading(false)
     }
-
+    const verifyCookie = ()=>{
+        const cookie = Cookies.get("token");
+        if(cookie){
+            return true;
+        }
+    }
 
     return (
             <div style={{height:"100vh"}} className={`container-fluid justify-content-center align-items-center mybg-primary`}>
@@ -44,8 +57,8 @@ export default function Login(){
                     <legend className="text-center fw-bold">AyASystem</legend>
                 </figure>
                   
-                <Input type="text" name="Usuario" rules={{required:"O campo usuário é obrigatório", pattern:{value:/[a-z]/i, message:"O campo deve começar com uma letra."}}} control={control} />
-                <Input type="password" name="Senha" rules={{required:"O campo senha é obrigatório"}} control={control} />
+                <Input defaultValue="" type="text" name="Usuario" rules={{required:"O campo usuário é obrigatório", pattern:{value:/[a-z]/i, message:"O campo deve começar com uma letra."}}} control={control} />
+                <Input defaultValue="" type="password" name="Senha" rules={{required:"O campo senha é obrigatório"}} control={control} />
 
                 <div className="d-flex">
                     <Button className={`btn myBtnPrimary`}>Login</Button>
