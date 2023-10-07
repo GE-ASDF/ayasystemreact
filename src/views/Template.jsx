@@ -1,4 +1,4 @@
-import { Outlet,useNavigate,  useLocation} from "react-router-dom";
+import { Outlet,useNavigate,  useLocation, Navigate} from "react-router-dom";
 import style from "./styles/template.module.css"
 import MainNav from "../Components/MainNav";
 import DashBoard from "../Components/Dashboard"
@@ -6,60 +6,46 @@ import { Helmet } from "react-helmet";
 import Button from "../Components/Button";
 import Modal from "../Components/Modal";
 import { useTheme } from "../Contexts/ThemeContext";
-import { useLogged } from "../Contexts/LoggedContext";
+import { useAuth } from "../Contexts/AuthContext";
 import { useEffect } from "react";
 import { checkAuth } from "../Loaders/checkAuth";
+import Cookies from "js-cookie";
 import { useState } from "react";
-import {api} from "../utils/api";
-import Cookies from "js-cookie"
+import Loader from "../Components/Loader";
+import { useTemplate } from "../Contexts/TemplateContext";
 
 export default function Template(){
-    const [loading, setLoading] = useState(false)
-    const [logged, setLogged] = useState(true)
-    const navigate = useNavigate();
-    
-    useEffect(()=>{
-        const token = Cookies.get("token");
-        const session = localStorage.getItem("logado");
-      
-        if(!session){
-            navigate("/login")
-        }
-   
-        
-        fetch("http://localhost:3001/verifyToken",{method:"POST", headers:{
-            Authorization: token,
-            "Content-Type": "application/json"
-        }}).then((res)=> res.json())
-        .then((res)=>{
-            if(res.error == false){
-                setLogged(true)
-            }else{
-                setLogged(false)
-            }
-        }).catch(()=>{
-            setLogged(false)
-            setLoading(false);
-        }).finally(()=>{
-            setLoading(false)
-        })
-    })
- 
+    const {dataUser,setDataUser} = useTemplate();
+    // setDataUser(localStorage.getItem("logado"))
+    const {logged, setLogged} = useAuth();
     const local = useLocation().pathname.split("/admin").filter((el)=> el);    
     const themeCtx = useTheme();
-    
+    const navigate = useNavigate();
+    const token = Cookies.get("token");
+   
+    useEffect(()=>{
+        setLogged(token)
+    },[setLogged, token])
+
 
     const handleToggleTheme = ()=>{
         if(themeCtx){
             themeCtx.setTheme(themeCtx.theme === 'dark' ? 'light':'dark');
         }
     }
+    
+    if(!logged){
+       return navigate("/login")
+    }
 
+    if(dataUser == "null" ){
+        Cookies.remove("token")
+        return <Navigate to="/login" />;
+    }
 
     return (
+        
             <div className={`${style.container}`}>
-                    {!loading && logged && 
-                    <>
                     <Helmet><title>AyASystem</title></Helmet>
                     <MainNav />
                     <section className={`${style.rightSide} ${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`}>
@@ -91,9 +77,6 @@ export default function Template(){
                     <Modal className={`${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`} modalSize="modal-lg" modalTitle="Mandar WhatsApp" id="mandarWhatsApp">
 
                     </Modal>
-                    </>
-                }
-            {!loading && !logged && navigate("/login")}
             </div>
     )
 }

@@ -1,20 +1,21 @@
 import { useContext } from "react";
 import { useEffect } from "react";
 import { createContext,useState } from "react";
-import fetchData from "../utils/http";
-import { useLogged } from "./LoggedContext";
+import { Navigate } from "react-router-dom";
 
-const TemplateContext = createContext(null);
+
+const TemplateContext = createContext();
 
 export const TemplateProvider = ({children})=>{
     const [dataUser, setDataUser] = useState(localStorage.getItem("logado"))
-
+    const [loading, setLoading] = useState(false)
+  
     useEffect(()=>{
         localStorage.setItem("logado", dataUser);
     },[dataUser])
-    
+
     return (
-        <TemplateContext.Provider value={{dataUser, setDataUser}}>
+        <TemplateContext.Provider value={{dataUser,setLoading,loading, setDataUser}}>
             {children}
         </TemplateContext.Provider>
     )

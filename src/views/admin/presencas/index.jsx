@@ -62,7 +62,7 @@ export default function Presencas(){
                         <select onChange={handleChangeData} className={`form-select`} name="" id="">
                             {loading && <Loader />}
                             {datasPresencas.map(data => 
-                                <option selected={`${data == DataPresenca ? "selected":""}`} value={`${data}`}>Data da presença: {data}</option>    
+                                <option key={data} selected={`${data == DataPresenca ? "selected":""}`} value={`${data}`}>Data da presença: {data}</option>    
                             )}
                         </select>
                     </div>

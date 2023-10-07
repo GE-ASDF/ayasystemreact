@@ -12,8 +12,10 @@ import Modal from "../Modal";
 import { useTheme } from "../../Contexts/ThemeContext";
 import {normalizeString} from "../../utils/normalizeString";
 import Cookies from "js-cookie"
+import { useAuth } from "../../Contexts/AuthContext";
 
 export default function NavContent(props){
+    const {setLogged} = useAuth();
     const themeCtx = useTheme();
     const {alert, setAlert} = useAlert();
     const [gradeFlex, setGradeFlex] = useState([]);
@@ -22,13 +24,16 @@ export default function NavContent(props){
     const {dataUser} = useTemplate();
     const data = JSON.parse(dataUser)
     const navigate = useNavigate();
+
     const handleLogout = (e)=>{
         e.preventDefault();
         localStorage.removeItem("logado");
         sessionStorage.removeItem("logado")
         Cookies.remove("token");
-        navigate("/login")
+        setLogged(Cookies.get("token"))
+        // navigate("/login")
     }
+
     const [btnActive, setBtnActive] = useState({
         btn:'all',
         active:true,
@@ -101,12 +106,11 @@ export default function NavContent(props){
                         </tr>
                     </thead>
                     <tbody>
-                        {gradeFlex.map((grade)=>{
+                        {gradeFlex.map((grade, key)=>{
                             return(
-                                <tr key={grade.HoraInicio}>
+                                <tr key={key}>
                                     <td className="text-center">{grade.HoraInicio}</td>
                                     {grade.Alunos.map(aluno =>{
-
                                             return (
                                             <>
                                                 <td className={`${20 - aluno.Alunos.length > 0 ? "bg-success":"bg-danger"}`} key={aluno.DiaDaSemana}>

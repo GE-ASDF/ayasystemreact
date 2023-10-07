@@ -1,8 +1,7 @@
 import axios from "axios"
+import Cookies from "js-cookie"
 
-const session = localStorage.getItem("logado");
-const sessionStored = JSON.parse(session);
-export let TOKEN = sessionStored?.token;
+const TOKEN = Cookies.get("token");
 
 const Authorization = TOKEN ? `${TOKEN}`:"no";
 

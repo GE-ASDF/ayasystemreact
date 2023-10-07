@@ -1,51 +1,61 @@
-import {RouterProvider, createBrowserRouter} from "react-router-dom"
+import {RouterProvider, createBrowserRouter, useNavigate} from "react-router-dom"
 import PublicRoutes from "./Routes/PublicRoutes"
 import PrivateRoutes from "./Routes/PrivateRoutes";
 import { ThemeProvider } from "./Contexts/ThemeContext";
 import { TemplateProvider } from "./Contexts/TemplateContext";
-import { AuthProvider } from "./Contexts/LoggedContext";
 import { useState,useEffect } from "react";
-import { checkAuth } from "./Loaders/checkAuth";
 import Loader from "./Components/Loader"
 import { AlertProvider } from "./Contexts/AlertContext";
 import Cookies from "js-cookie"
+import { checkAuth } from "./Loaders/checkAuth";
+import fetchData from "./utils/http";
+import { AuthProvider } from "./Contexts/AuthContext";
 
 export default function App(){
-  const [logado, setLogado] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const router =  createBrowserRouter([
-    ...(logado == true ? PrivateRoutes() : []), // Condicionalmente adiciona rotas privadas
-    ...PublicRoutes()
-  ]);
-  
-  useEffect(()=>{
-    checkAuth().then((res)=>{
-      if(res.error == false){
-        setLogado(true);
+  const [loading, setLoading] = useState(false)
+  const [logged, setLogged] = useState(null)
+  const privateRoutes = PrivateRoutes(logged);
+  const publicRoutes = PublicRoutes();
+  let allRoutes = [...publicRoutes, ...privateRoutes];
+
+  const router =  createBrowserRouter(allRoutes);
+
+    const verifyingAuth = async ()=>{
+      setLoading(true);
+      const verified = await checkAuth();
+      if(verified.error == false && verified.logged == true){
+        setLogged(true);
+        setLoading(false);
       }else{
-        setLogado(false);
+        setLogged(false);
+        setLoading(false);
       }
-    }).catch(()=>{
-      setLogado(false);
-    })
-  },[logado])
+    }
+    
+    useEffect(()=>{
+      verifyingAuth()
+    },[logged])
+
     if(loading){
       return <Loader />
     }
+
     return (
+      <AuthProvider>
           <AlertProvider>
+      <TemplateProvider>
             <ThemeProvider>
-                    <TemplateProvider>
-                        {logado !== null &&
-                          <RouterProvider router={router} >
-                          </RouterProvider>
-                        }
-                      {logado == null && 
-                        <Loader />
-                      }
-                    </TemplateProvider>
+                  {logged !== null &&
+                    <RouterProvider router={router} >
+                    </RouterProvider>
+                  }
+                  {logged == null && 
+                    <Loader />
+                  }
             </ThemeProvider>        
+        </TemplateProvider>
           </AlertProvider>
+        </AuthProvider>
 
   )
 }

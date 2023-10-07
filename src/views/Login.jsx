@@ -10,24 +10,29 @@ import Alert from "../Components/Alert";
 import {checkAuth} from "../Loaders/checkAuth"
 import { useAlert } from "../Contexts/AlertContext";
 import Cookies from "js-cookie";
+import { useAuth } from "../Contexts/AuthContext";
+import { useTemplate } from "../Contexts/TemplateContext";
 export default function Login(){
     const {alert, setAlert} = useAlert();
     const {control, handleSubmit} = useForm();
-    const [loading, setLoading] = useState(false)
+    const {loading,setLoading, setDataUser} = useTemplate();
+    const {setLogged} = useAuth();
     const navigate = useNavigate();
-    const [cookieOk, setCookie] = useState(false)
     const handleLoginSubmit = async ()=>{
         setLoading(true)
         try{
             const response = await fetchData("/auth", 'POST', control._formValues);
-
             if(response.error == false){
                 setUserCookie(response.token)
                 delete response.token;
                 createUserSession(response);                    
                 setLoading(false);
                 if(verifyCookie()){
-                    window.location.href = "/admin"
+                    setLogged(verifyCookie())
+                    setDataUser(localStorage.getItem("logado"))
+                    setLoading(false);
+                    navigate("/admin")
+                    // window.location.href = "/admin"
                 }
             }else if(response.error == true){
                 setLoading(false)
@@ -41,7 +46,7 @@ export default function Login(){
     const verifyCookie = ()=>{
         const cookie = Cookies.get("token");
         if(cookie){
-            return true;
+            return cookie;
         }
     }
 
@@ -55,8 +60,8 @@ export default function Login(){
                     <legend className="text-center fw-bold">AyASystem</legend>
                 </figure>
                   
-                <Input defaultValue="" type="text" name="Usuario" rules={{required:"O campo usuário é obrigatório", pattern:{value:/[a-z]/i, message:"O campo deve começar com uma letra."}}} control={control} />
-                <Input defaultValue="" type="password" name="Senha" rules={{required:"O campo senha é obrigatório"}} control={control} />
+                <Input defaultValue="" type="text" name="Usuario" rules={{required:"O campo usuário é obrigatório", maxLength:{value:"255", message:"O campo possui um limite de 255 caracteres."},pattern:{value:/[a-z]/i, message:"O campo deve começar com uma letra."}}} control={control} />
+                <Input defaultValue="" type="password" name="Senha" rules={{required:"O campo senha é obrigatório",maxLength:{value:"255", message:"O campo possui um limite de 255 caracteres."}}} control={control} />
 
                 <div className="d-flex">
                     <Button className={`btn myBtnPrimary`}>Login</Button>

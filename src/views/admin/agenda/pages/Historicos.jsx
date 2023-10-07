@@ -17,9 +17,29 @@ export default function Contatos(){
         CodigoHistorico:'',
         Historico:'',
     })  
-    const handleTypeHistorico = (e)=>{
-        setHistorico({CodigoHistorico: e.target.id, Historico:e.target.value})
+    const handleTypeHistorico = async (e)=>{
+        const history = {CodigoHistorico: e.target.id, Historico:e.target.value}
+        setHistorico(history);
+        console.log(history)
+      
+        const response = await fetchData('/admin/historicosupdate', 'POST', history);
+        console.log(response)
+        if(response.error){
+            setAlert({type:'danger', message:response.errors[0].msg,time:7,show:true})
+        }        
     }
+    
+    // useEffect(()=>{
+    //     const saveHistorico = async ()=>{
+    //         const response = await fetchData('/admin/historicosupdate', 'POST', historico);
+    //         if(response.error){
+    //             setAlert({type:'danger', message:response.errors[0].msg,time:7,show:true})
+    //         }
+            
+    //     }
+    //     saveHistorico();
+    // },[historico, setAlert])
+
 
     const [handleGetInfoStudent] = useOutletContext();
     const navigate = useNavigate();

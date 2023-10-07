@@ -6,6 +6,7 @@ import { Months } from "../../constants/contants";
 import { useEffect, useState } from "react";
 import fetchData from "../../utils/http";
 import Loader from "../Loader";
+import Button from "../Button";
 
 function getDiasMes(month, year) {
     month--;
@@ -18,6 +19,7 @@ function getDiasMes(month, year) {
     }
     return days;
 }
+
 
 function criarArrayDeAnos() {
     const anoAtual = new Date().getFullYear();
@@ -74,9 +76,7 @@ export default function DashBoard(){
         setData(`${actualYear}-${actualMonth < 9 ? "0"+(actualMonth+ 1):actualMonth+ 1  }-${actualDay <= 9 ? "0"+actualDay:actualDay}`)
         getMatriculadosOm()
     },[actualMonth, actualDay, data])
-    useEffect(()=>{
-        console.log(data);
-    },[])
+
     return (
         <>
         <div className={style.batContainer}>
@@ -95,64 +95,58 @@ export default function DashBoard(){
             </h1>
             <div className="d-grid flex-row">
                 
-                <div class="d-flex flex-wrap gap-2">
+                <div className="d-flex flex-wrap gap-2">
                 <div className="d-block">
                     <BatCard>
                         <span className="fs-6">Matrículas OM</span>
                         <span className="fs-6">{getMonth()}</span>
-                        <h1 className={`${style.yellowText} fs-3`}>4</h1>
+                        <span className={`${style.yellowText} fs-3`}>4</span>
                     </BatCard>
                 </div>
                 <div>
-                    <div style={{width:"500px", maxWidth:"500px", overflow:"auto", height:"", maxHeight:"500px"}} className="d-block justify-conten-start align-items-start p-2">
+                    <div style={{width:"500px", maxWidth:"500px", overflow:"auto", height:"", maxHeight:"500px"}} className="d-block text-white justify-conten-start align-items-start p-2">
                         {
-                            <div style={{display:"block", width:"max-content", cursor:"pointer"}} className={`bg-secondary rounded text-center p-2`}>
-                                2023
-                            </div>
+                            <Button style={{display:"block", width:"max-content", cursor:"pointer"}} className={`bg-secondary text-white rounded text-center p-2`}>2023</Button>
                         }
-                        <div style={{overflow:"auto", width:"max-content"}} className="d-flex flex-row gap-1 card p-2">
+                        <div style={{overflow:"auto", width:"max-content"}} className={`d-flex flex-row gap-1 card p-2 ${themeCtx.theme == "dark" ? 'bg-dark text-white':'bg-light text-white'}`}>
                             {Months.map((month)=>{
                                 if(month.Code <= new Date().getMonth()){
                                     if(month.Code != actualMonth){
                                         return (
-                                            <div onClick={()=> handleChangeMonth(month.Code)} style={{display:"block", width:"100px", cursor:"pointer"}} className={`bg-${month.Code == actualMonth ? 'success':'secondary'} rounded text-center p-2`} key={month.Code}>{month.Month}</div>
+                                            <Button onClick={()=> handleChangeMonth(month.Code)}  className={`bg-${month.Code == actualMonth ? 'success':'secondary'} text-white `} key={month.Code}>{month.Month}</Button>
                                             )
                                         }else{
                                             return (
-                                                <div style={{display:"block", width:"100px", cursor:"pointer"}} className={`bg-${month.Code == actualMonth ? 'success':'secondary'} rounded text-center p-2`} key={month.Code}>{month.Month}</div>
+                                                <Button className={`bg-${month.Code == actualMonth ? 'success':'secondary'} text-white `} key={month.Code}>{month.Month}</Button>
                                             )
                                         }
                                     }
                                 })}
                         </div>
-                        <div style={{overflow:"auto", width:"max-content"}} className="d-flex justify-conten-start align-items-start flex-row gap-2 card p-1">
+                        <div style={{overflow:"auto", width:"max-content"}} className={`d-flex justify-content-start align-items-center flex-row gap-1 card ${themeCtx.theme == "dark" ? 'bg-dark text-white':'bg-light text-white'}`}>
                         {
                             daysMonth.map((day)=>{
                                 if(actualMonth  != new Date().getMonth()){
                                     if(day != actualDay){
                                         return(
-                                            <div onClick={()=> handleChangeDay(day)} key={day} style={{display:"block", width:"max-content", cursor:"pointer"}} className={`bg-${day == actualDay ? 'success':''} rounded text-center p-2`}>
-                                                {day}   
-                                            </div>
-                                        )
-                                    }else{
-                                        return(
-                                            <div key={day} style={{display:"block", width:"max-content", cursor:"pointer"}} className={`bg-${day == actualDay ? 'success':''} rounded text-center p-2`}>
-                                                {day}   
-                                            </div>
+                                            <Button onClick={()=> handleChangeDay(day)} key={day} className={`bg-${day == actualDay  ? 'success':'secondary'} rounded-circle py-1 text-white `} >{day}</Button>
+                                            )
+                                        }else{
+                                            return(
+                                            <Button key={day} className={`bg-${day == actualDay  ? 'success':'secondary'} text-white `} >{day}</Button>
                                         )
                                     }
                                 }else if(actualMonth == new Date().getMonth() && day <= new Date().getDate()){
                                     if(day != actualDay){
 
                                         return(
-                                            <div onClick={()=> handleChangeDay(day)} key={day} style={{display:"block", width:"max-content", cursor:"pointer"}} className={`bg-${day == actualDay ? 'success':''} rounded text-center p-2`}>
+                                            <div onClick={()=> handleChangeDay(day)} key={day} style={{display:"block", width:"max-content", cursor:"pointer"}} className={`bg-${day == actualDay ? 'success':'secondary'} rounded text-center p-2`}>
                                             {day}   
                                         </div>
                                     )
                                     }else{
                                         return(
-                                            <div key={day} style={{display:"block", width:"max-content", cursor:"pointer"}} className={`bg-${day == actualDay ? 'success':''} rounded text-center p-2`}>
+                                            <div key={day} style={{display:"block", width:"max-content", cursor:"pointer"}} className={`bg-${day == actualDay ? 'success':'secondary'} rounded text-center p-2`}>
                                             {day}   
                                         </div>
                                     )
@@ -162,7 +156,7 @@ export default function DashBoard(){
                         }
                         </div>
                     </div>
-                    <div style={{maxHeight:"250px", overflow:"auto"}}>
+                    <div style={{maxHeight:"250px",maxWidth:"500px", overflow:"auto"}}>
                         {matriculados.length > 0 &&
                             <table className="table table-dark">
                                 <thead>
@@ -170,15 +164,17 @@ export default function DashBoard(){
                                         <th>Quantidade: {matriculados.length}</th>
                                     </tr>
                                     <tr>
-                                        <td>Login</td>
+                                        <td>ID</td>
+                                        {/* <td>Login</td> */}
                                         <td>Nome do aluno</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {matriculados.map(matriculado =>{
                                         return (
-                                            <tr key={matriculado.key}>
-                                                <td>{matriculado.LOGIN}</td>
+                                            <tr key={matriculado.ID}>
+                                                <td>{matriculado.ID}</td>
+                                                {/* <td>{matriculado.LOGIN}</td> */}
                                                 <td>{matriculado.NOME}</td>
                                             </tr>
                                         )
