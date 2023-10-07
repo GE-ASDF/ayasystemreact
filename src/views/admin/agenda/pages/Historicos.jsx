@@ -17,18 +17,18 @@ export default function Contatos(){
         CodigoHistorico:'',
         Historico:'',
     })  
-    const handleTypeHistorico = async (e)=>{
-        const history = {CodigoHistorico: e.target.id, Historico:e.target.value}
-        setHistorico(history);
-        console.log(history)
-      
+    const handleTypeHistorico = (e, CodigoHistorico)=>{
+        const history = {CodigoHistorico: CodigoHistorico, Historico:e.target.value}
+        setHistorico(() => history);      
+        console.log(historico)
+    }
+    const saveHistorico = async()=>{
         const response = await fetchData('/admin/historicosupdate', 'POST', history);
         console.log(response)
         if(response.error){
             setAlert({type:'danger', message:response.errors[0].msg,time:7,show:true})
-        }        
+        }    
     }
-    
     // useEffect(()=>{
     //     const saveHistorico = async ()=>{
     //         const response = await fetchData('/admin/historicosupdate', 'POST', historico);
@@ -90,7 +90,7 @@ export default function Contatos(){
                                         <span>Data do histórico: {formatDateToUser(historico.DataHistorico)}</span>
                                     </div>
                                     <div className="form-group d-flex flex-column justify-content-center align-items-start gap-2">
-                                    <textarea onChange={handleTypeHistorico} defaultValue={`${historico.Historico}`} className="form-control" name="Historico" id={`${historico.CodigoHistorico}`} cols="30" rows="5">
+                                    <textarea onChange={(e)=> handleTypeHistorico(e, historico.CodigoHistorico)} defaultValue={`${historico.Historico}`} className="form-control" name="Historico" id={`${historico.CodigoHistorico}`} cols="30" rows="5">
                                         </textarea>
                                         <Button onClick={()=> deleteHistorico(historico.CodigoHistorico)} className={`btn-danger`}>X</Button>
                                     </div>
