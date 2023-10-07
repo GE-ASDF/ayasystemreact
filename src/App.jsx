@@ -17,7 +17,7 @@ export default function App(){
     ...(logado == true ? PrivateRoutes() : []), // Condicionalmente adiciona rotas privadas
     ...PublicRoutes()
   ]);
-
+  
   useEffect(()=>{
     checkAuth().then((res)=>{
       if(res.error == false){
@@ -37,7 +37,6 @@ export default function App(){
             <ThemeProvider>
                     <TemplateProvider>
                         {logado !== null &&
-
                           <RouterProvider router={router} >
                           </RouterProvider>
                         }

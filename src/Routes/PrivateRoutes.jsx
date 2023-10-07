@@ -9,6 +9,8 @@ import { loaderContatos } from "../Loaders/loaderContatos";
 import { loaderHistoricos } from "../Loaders/loaderHistoricos";
 import { loaderPresencas } from "../Loaders/loaderPresencas";
 import Presencas from "../views/admin/presencas";
+import { checkAuth } from "../Loaders/checkAuth";
+import Login from "../views/Login";
 
 export default function PrivateRoutes(){
         return [{

@@ -27,10 +27,8 @@ export default function Login(){
                 createUserSession(response);                    
                 setLoading(false);
                 if(verifyCookie()){
-                    navigate("/admin")
+                    window.location.href = "/admin"
                 }
-                // navigate("/admin")
-                // window.location.href = "/admin"
             }else if(response.error == true){
                 setLoading(false)
                 setAlert({type:'danger',show:true,time:7,message:response.message})

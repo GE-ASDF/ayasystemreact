@@ -12,6 +12,7 @@ import { checkAuth } from "../Loaders/checkAuth";
 import { useState } from "react";
 import {api} from "../utils/api";
 import Cookies from "js-cookie"
+
 export default function Template(){
     const [loading, setLoading] = useState(false)
     const [logged, setLogged] = useState(true)
