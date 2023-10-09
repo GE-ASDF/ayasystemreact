@@ -13,33 +13,27 @@ export default function Contatos(){
     const {setAlert} = useAlert();
     const [historicos, setHistoricos] = useState(useLoaderData())
     const local = useLocation().pathname.split("/historicos").filter((el)=> el); 
-    const [historico, setHistorico] = useState({
-        CodigoHistorico:'',
-        Historico:'',
-    })  
-    const handleTypeHistorico = (e, CodigoHistorico)=>{
+ 
+    const handleTypeHistorico = async(e, CodigoHistorico)=>{
         const history = {CodigoHistorico: CodigoHistorico, Historico:e.target.value}
-        setHistorico(() => history);      
-        console.log(historico)
-    }
-    const saveHistorico = async()=>{
-        const response = await fetchData('/admin/historicosupdate', 'POST', history);
-        console.log(response)
-        if(response.error){
-            setAlert({type:'danger', message:response.errors[0].msg,time:7,show:true})
-        }    
-    }
-    // useEffect(()=>{
-    //     const saveHistorico = async ()=>{
-    //         const response = await fetchData('/admin/historicosupdate', 'POST', historico);
-    //         if(response.error){
-    //             setAlert({type:'danger', message:response.errors[0].msg,time:7,show:true})
-    //         }
-            
-    //     }
-    //     saveHistorico();
-    // },[historico, setAlert])
+        
+        if(!history.CodigoHistorico || !history.Historico){
+            setAlert({type:"danger",show:true,time:7,message:"Há campos obrigatórios vazios."})
+            return;
+        }     
 
+        const update = await fetchData("/admin/historicosupdate", 'POST', history);
+   
+        if(update.error){
+            setAlert({type:"danger",show:true,time:7,message:update.errors[0].msg})
+        }else{
+            if(update.affectedRows > 0){
+                setAlert({type:"success",show:true,time:7,message:"Registro salvo com sucesso."})
+            }else{
+                setAlert({type:"warning",show:true,time:7,message:"O registro não foi salvo. Tente novamente."})
+            }
+        }
+    }
 
     const [handleGetInfoStudent] = useOutletContext();
     const navigate = useNavigate();
