@@ -76,7 +76,6 @@ export default function Contatos(){
                         {historicos.map((historico)=>{
                             return (
                                 <Card key={`${historico.CodigoHistorico}`} className={`bg-dark text-white p-1`}>
-                                    
                                     <div className="d-flex flex-column">
                                         <span className="">Informações do histórico:</span>
                                         <span>Responsável: {historico.ResponsavelHistorico}</span>
@@ -84,7 +83,7 @@ export default function Contatos(){
                                     </div>
                                     <div className="form-group d-flex flex-column justify-content-center align-items-start gap-2">
                                     <textarea onChange={(e)=> handleTypeHistorico(e, historico.CodigoHistorico)} defaultValue={`${historico.Historico}`} className="form-control" name="Historico" id={`${historico.CodigoHistorico}`} cols="30" rows="5">
-                                        </textarea>
+                                    </textarea>
                                         <Button onClick={()=> deleteHistorico(historico.CodigoHistorico)} className={`btn-danger`}>X</Button>
                                     </div>
                                 </Card>

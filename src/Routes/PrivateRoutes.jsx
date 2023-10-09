@@ -9,6 +9,8 @@ import { loaderContatos } from "../Loaders/loaderContatos";
 import { loaderHistoricos } from "../Loaders/loaderHistoricos";
 import { loaderPresencas } from "../Loaders/loaderPresencas";
 import Presencas from "../views/admin/presencas";
+import Listar from "../views/admin/listar/Listar";
+import { loaderListar } from "../Loaders/loaderListar";
 
 
 export default function PrivateRoutes(){
@@ -59,6 +61,26 @@ export default function PrivateRoutes(){
                         }
                     ]
                 },
+                {
+                    path:"listar",
+                    element: <Listar />,
+                    loader: loaderListar,
+                    errorElement: <ErrorBoundary />,
+                    children:[
+                        {
+                            path:"contatos/:CodigoContrato",
+                            element: <Contatos />,
+                            loader:loaderContatos,
+                            errorElement:<ErrorBoundary />,
+                        },
+                        {
+                            path:"historicos/:CodigoContrato",
+                            element: <Historicos />,
+                            loader:loaderHistoricos,
+                            errorElement:<ErrorBoundary />,
+                        }
+                    ]
+                }
             ],
         },
         {path:"*", element:<Navigate to="/admin" replace />}

@@ -79,6 +79,9 @@ export default function NavContent(props){
                 <li className={`${style.navLinkItem} nav-item w-100`}>
                     <Button data-bs-toggle="modal" data-bs-target="#gradeflex" onClick={getGradeFlex} className={`${style.backTransparent}`}><i className="bi bi-stopwatch"></i> Grade flex</Button>
                 </li>
+                <li className={`${style.navLinkItem} nav-item w-100`}>
+                    <Link className="nav-item" to="/admin/listar"><i className="bi bi-list-nested"></i> Listar</Link>
+                </li>
             </ul>
             </div>
                 <Link className={`${style.navLinkItem} ${style.logout}`} onClick={handleLogout}><i className="bi bi-box-arrow-right"></i></Link>
