@@ -1,9 +1,11 @@
 import Cookies from "js-cookie"
 // const session = localStorage.getItem("logado");
 // const sessionStored = JSON.parse(session);
+import config from "../../config/config";
+
 export let TOKEN = Cookies.get("token")
 const Authorization = TOKEN ? `${TOKEN}`:"no";
-const BASE_URL = import.meta.env.VITE_BASE_URL_BACKEND;
+const BASE_URL = config.baseUrlBackend;
 const defaultHeaders = {
     Authorization: Authorization,
     "Content-Type": "application/json"

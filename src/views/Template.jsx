@@ -16,7 +16,6 @@ import { useTemplate } from "../Contexts/TemplateContext";
 
 export default function Template(){
     const {dataUser,setDataUser} = useTemplate();
-    // setDataUser(localStorage.getItem("logado"))
     const {logged, setLogged} = useAuth();
     const local = useLocation().pathname.split("/admin").filter((el)=> el);    
     const themeCtx = useTheme();

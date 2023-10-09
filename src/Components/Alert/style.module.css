@@ -1,0 +1,16 @@
+@keyframes showAlert {
+    from{
+        transform: translateX(100px);
+    }
+    to{
+        transform: translateX(10px);
+    }
+}
+.myAlert{
+    position:absolute;
+    top: 10px;
+    z-index:2;
+    right:10px;
+    animation: showAlert 0.1s forwards ease-in-out;
+    transition: all 0.1s ease-in;
+}

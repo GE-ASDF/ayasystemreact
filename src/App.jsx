@@ -43,17 +43,17 @@ export default function App(){
     return (
       <AuthProvider>
           <AlertProvider>
-      <TemplateProvider>
-            <ThemeProvider>
-                  {logged !== null &&
-                    <RouterProvider router={router} >
-                    </RouterProvider>
-                  }
-                  {logged == null && 
-                    <Loader />
-                  }
-            </ThemeProvider>        
-        </TemplateProvider>
+            <TemplateProvider>
+                <ThemeProvider>
+                      {logged !== null &&
+                        <RouterProvider router={router} >
+                        </RouterProvider>
+                      }
+                      {logged == null && 
+                        <Loader />
+                      }
+                </ThemeProvider>        
+              </TemplateProvider>
           </AlertProvider>
         </AuthProvider>
 

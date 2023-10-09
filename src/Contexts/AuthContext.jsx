@@ -4,12 +4,13 @@ import { createContext } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import fetchData from "../utils/http";
 import Cookies from "js-cookie";
+import config from "../../config/config";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({children})=>{
     const [logged, setLogged] = useState(Cookies.get("token") || ''); 
-    const urlToValidateToken = import.meta.env.VITE_BASE_URL_BACKEND + "/verifyToken";
+    const urlToValidateToken = config.baseUrlBackend + "/verifyToken";
     const options = {method:"POST", headers:{"Content-Type":"application/json", Authorization:logged}}
 
     const checkToken = async ()=>{

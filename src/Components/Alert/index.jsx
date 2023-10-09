@@ -1,9 +1,9 @@
-import { hookShowMessage } from "../../Hooks/hookShowMessage";
+import style from "./style.module.css"
 import Button from "../Button"
 
 const Alert = (props)=>{
     return (
-        <div style={{position:"absolute", top:"10px", zIndex:'10', right:"10px"}} className={`alert ${props.className} alert-${props.type}`}>
+        <div className={`alert ${props.className} ${style.myAlert} alert-${props.type}`}>
             <div className="d-flex justify-content-between gap-3 align-items-center">
                 <span>{props.message}</span>
                 <Button className="btn btn-danger" onClick={props.onClick}>

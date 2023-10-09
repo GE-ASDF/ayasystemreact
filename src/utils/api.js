@@ -1,5 +1,6 @@
 import axios from "axios"
 import Cookies from "js-cookie"
+import config from "../../config/config";
 
 const TOKEN = Cookies.get("token");
 
@@ -11,6 +12,6 @@ const defaultHeaders = {
 }
 
 export const api = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL_BACKEND,
+    baseURL: config.baseUrlBackend,
     headers:defaultHeaders,
 })
