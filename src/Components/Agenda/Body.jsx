@@ -4,16 +4,16 @@ import style from "./style.module.css";
 import { Card, CardBody, CardHeader } from "../Cards/Cards";
 import { Accordion } from "../Accordion/Accordion";
 import { useTheme } from "../../Contexts/ThemeContext";
-import Button from "../Button";
 import {Table,Tbody, Thead} from "../Table";
 import { normalizeString } from "../../utils/normalizeString";
+import PropTypes from "prop-types"
 
 export function TbodyWithSearch({data, search = '', handleGetInfoStudent}){
  
     return (
         <tbody>
             {data.map(el =>{
-                return el.Alunos.map((aluno, key) =>{
+                return el.Alunos.map((aluno) =>{
                     if((normalizeString(aluno.NomeAluno).includes(normalizeString(search)) || normalizeString(aluno.CodigoContrato).includes(normalizeString(search)))){
                             return (
                                 <tr key={aluno.CodigoContrato}>
@@ -42,7 +42,11 @@ export function TbodyWithSearch({data, search = '', handleGetInfoStudent}){
         </tbody>
     )
 }
-
+TbodyWithSearch.propTypes = {
+    data: PropTypes.array,
+    search: PropTypes.string,
+    handleGetInfoStudent: PropTypes.func,
+}
 export function Actions(props){
     return (
         <div className="d-flex gap-1">
@@ -51,6 +55,12 @@ export function Actions(props){
             {props.children}
         </div>
     )
+}
+
+Actions.propTypes = {
+    CodigoContrato: PropTypes.string,
+    children: PropTypes.element,
+    handleGetInfoStudent: PropTypes.func
 }
 
 export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
@@ -250,4 +260,12 @@ export const Body = ({agenda, handleGetInfoStudent, loading, sistema})=>{
         </Card>
         </div>
     )
+}
+
+Body.propTypes = {
+    agenda: PropTypes.array,
+    handleGetInfoStudent:PropTypes.func,
+    loading: PropTypes.bool,
+    sistema: PropTypes.string,
+
 }

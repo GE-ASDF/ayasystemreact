@@ -6,9 +6,8 @@ import { useState, useEffect } from "react";
 import { formatDateToUser } from "../../../../utils/formatDateBD";
 import fetchData from "../../../../utils/http";
 import { useAlert } from "../../../../Contexts/AlertContext";
-import Loader from "../../../../Components/Loader";
-import {loaderHistoricos} from "../../../../Loaders/loaderHistoricos"
 import {normalizeString} from "../../../../utils/normalizeString";
+
 export default function Contatos(){
     const {setAlert} = useAlert();
     const [historicos, setHistoricos] = useState(useLoaderData())
@@ -16,7 +15,7 @@ export default function Contatos(){
  
     const handleTypeHistorico = async(e, CodigoHistorico)=>{
         const history = {CodigoHistorico: CodigoHistorico, Historico:e.target.value}
-        
+
         if(!history.CodigoHistorico || !history.Historico){
             setAlert({type:"danger",show:true,time:7,message:"Há campos obrigatórios vazios."})
             return;
