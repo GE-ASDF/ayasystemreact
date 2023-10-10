@@ -31,7 +31,7 @@ export default function NavContent(props){
         sessionStorage.removeItem("logado")
         Cookies.remove("token");
         setLogged(Cookies.get("token"))
-        // navigate("/login")
+        navigate("/login")
     }
 
     const [btnActive, setBtnActive] = useState({
@@ -77,7 +77,7 @@ export default function NavContent(props){
                     <Link className="nav-item" to="/admin"><i className="bi bi-house-door"></i> Início</Link>
                 </li>
                 <li className={`${style.navLinkItem} nav-item w-100`}>
-                    <Button data-bs-toggle="modal" data-bs-target="#gradeflex" onClick={getGradeFlex} className={`${style.backTransparent}`}><i className="bi bi-stopwatch"></i> Grade flex</Button>
+                    <Button data-bs-toggle="modal" data-bs-target="#gradeflex" onClick={getGradeFlex} className={`text-white ${style.backTransparent}`}><i className="bi bi-stopwatch"></i> Grade flex</Button>
                 </li>
                 <li className={`${style.navLinkItem} nav-item w-100`}>
                     <Link className="nav-item" to="/admin/listar"><i className="bi bi-list-nested"></i> Listar</Link>
