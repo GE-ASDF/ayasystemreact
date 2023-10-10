@@ -11,6 +11,7 @@ import { loaderPresencas } from "../Loaders/loaderPresencas";
 import Presencas from "../views/admin/presencas";
 import Listar from "../views/admin/listar/Listar";
 import { loaderListar } from "../Loaders/loaderListar";
+import MatriculadosOM from "../views/admin/matriculadosom";
 
 
 export default function PrivateRoutes(){
@@ -80,8 +81,13 @@ export default function PrivateRoutes(){
                             errorElement:<ErrorBoundary />,
                         }
                     ]
+                },
+                {
+                    path:"matriculadosom",
+                    element:<MatriculadosOM />,
+                    errorElement:<ErrorBoundary />
                 }
-            ],
+            ]
         },
         {path:"*", element:<Navigate to="/admin" replace />}
     ];

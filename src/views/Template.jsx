@@ -49,9 +49,14 @@ export default function Template(){
                     <MainNav />
                     <section className={`${style.rightSide} ${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`}>
                         <header className={`${style.headerRightSide} d-flex gap-1 justify-content-end align-items-center`}>
-                            <div style={{flex:"1"}} className="d-flex">
-                                {themeCtx.theme == "dark" && <i onClick={handleToggleTheme} title="Tema claro" style={{cursor:"pointer"}} className="bi text-warning fs-4 bi-sun-fill"></i>}
-                                {themeCtx.theme != "dark" && <i onClick={handleToggleTheme} title="Tema escuro" style={{cursor:"pointer"}} className="bi fs-4 bi-moon-fill"></i>}
+                            <div className={`${style.changeThemeItens}`}>
+                                <div style={{border:`1px solid ${themeCtx.theme == "dark" ? "#fff":"#000"}`,justifyContent:`${themeCtx.theme == "dark" ? "flex-end":"flex-start"}`}} className={`rounded ${style.changeThemeBtn}`}>
+                                    <div className={`${style.preenchimentoCheck} ${themeCtx.theme == "dark" ? style.preenchimentoCheckDark:style.preenchimentoCheckLight}`}>
+                                        {themeCtx.theme == "dark" && <i className="bi bi-stars"></i>}
+                                    </div>
+                                    {themeCtx.theme != "dark" && <i onClick={handleToggleTheme} title="Tema claro" style={{cursor:"pointer", zIndex:"1"}} className="bi  text-warning fs-6 bi-sun-fill"></i>}
+                                    {themeCtx.theme == "dark" && <i onClick={handleToggleTheme} title="Tema escuro" style={{cursor:"pointer", zIndex:"1"}} className="bi text-white  fs-6 bi-moon-fill"></i>}
+                                </div>
                             </div>
                             <Button type="button" className={`btn ${style.myBtnPrimary}  rounded-circle`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
                                 <i className="bi bi-chat-left-dots"></i>
