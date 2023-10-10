@@ -49,9 +49,9 @@ export default function Template(){
                     <MainNav />
                     <section className={`${style.rightSide} ${themeCtx?.theme == 'dark' ? `bg-dark text-light`:"bg-light text-dark"}`}>
                         <header className={`${style.headerRightSide} d-flex gap-1 justify-content-end align-items-center`}>
-                            <div style={{display:"flex", justifyContent:"flex-start", flex:"1"}} className="form-check form-switch">
-                                <input style={{cursor:"pointer"}} onClick={handleToggleTheme} className="form-check-input" defaultChecked={`${themeCtx?.theme == "dark" ? 'checked':''}`} type="checkbox" role="switch" id="flexSwitchCheckChecked" />
-                                <label style={{cursor:"pointer"}} className="form-check-label mx-1" htmlFor="flexSwitchCheckChecked">{themeCtx?.theme.toUpperCase()}</label>
+                            <div style={{flex:"1"}} className="d-flex">
+                                {themeCtx.theme == "dark" && <i onClick={handleToggleTheme} title="Tema claro" style={{cursor:"pointer"}} className="bi text-warning fs-4 bi-sun-fill"></i>}
+                                {themeCtx.theme != "dark" && <i onClick={handleToggleTheme} title="Tema escuro" style={{cursor:"pointer"}} className="bi fs-4 bi-moon-fill"></i>}
                             </div>
                             <Button type="button" className={`btn ${style.myBtnPrimary}  rounded-circle`} data-bs-toggle="modal" data-bs-target="#mandarWhatsApp">
                                 <i className="bi bi-chat-left-dots"></i>
@@ -63,7 +63,7 @@ export default function Template(){
                                 Concluir aula
                             </Button>
                         </header>
-                        <main style={{overflowY:"auto"}}>
+                        <main className="p-3" style={{overflowY:"auto"}}>
                         {
                             local.length > 0 ? <Outlet />:
                             <DashBoard />

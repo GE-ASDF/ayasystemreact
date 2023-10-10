@@ -60,8 +60,8 @@ export default function Login(){
                     <legend className="text-center fw-bold">AyASystem</legend>
                 </figure>
                   
-                <Input defaultValue="" type="text" name="Usuario" rules={{required:"O campo usuário é obrigatório", maxLength:{value:"255", message:"O campo possui um limite de 255 caracteres."},pattern:{value:/[a-z]/i, message:"O campo deve começar com uma letra."}}} control={control} />
-                <Input defaultValue="" type="password" name="Senha" rules={{required:"O campo senha é obrigatório",maxLength:{value:"255", message:"O campo possui um limite de 255 caracteres."}}} control={control} />
+                <Input label="Usuário" defaultValue="" type="text" name="Usuario" rules={{required:"O campo usuário é obrigatório", maxLength:{value:"255", message:"O campo possui um limite de 255 caracteres."},pattern:{value:/[a-z]/i, message:"O campo deve começar com uma letra."}}} control={control} />
+                <Input label="Senha" defaultValue="" type="password" name="Senha" rules={{required:"O campo senha é obrigatório",maxLength:{value:"255", message:"O campo possui um limite de 255 caracteres."}}} control={control} />
 
                 <div className="d-flex">
                     <Button className={`btn myBtnPrimary`}>Login</Button>
